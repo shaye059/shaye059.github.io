@@ -40,46 +40,64 @@
         .submit-btn:hover {
             background-color: #0056b3;
         }
+        #results {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 <div class="upload-container">
     <h2>Image Upload</h2>
-    <form action="http://localhost:5000/predict" method="post" enctype="multipart/form-data" id="uploadForm">
+    <form id="uploadForm" enctype="multipart/form-data">
         <div class="drag-area" onclick="document.getElementById('fileInput').click();">
             <p>Drag & Drop Image Here or <span style="color: blue; text-decoration: underline;">Browse</span></p>
         </div>
-        <input type="file" name="file" id="fileInput" style="display: none;" onchange="document.getElementById('fileName').textContent = this.files[0].name">
+        <input type="file" name="file" id="fileInput" style="display: none;" onchange="previewImage();">
         <p id="fileName"></p>
-        <input type="submit" value="Upload Image" class="submit-btn">
+        <input type="button" value="Upload Image" class="submit-btn" onclick="uploadImage();">
     </form>
 </div>
 
+<div id="results">
+    <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">
+    <p id="varroa-result"></p>
+    <p id="wasp-result"></p>
+</div>
+
 <script>
-        const dropArea = document.querySelector('.drag-area'),
-              fileInput = document.getElementById('fileInput');
+    function previewImage() {
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const reader = new FileReader();
 
-        dropArea.addEventListener('dragover', (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            dropArea.style.background = '#f8f8f8';
-        });
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(fileInput.files[0]);
 
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.style.background = '#ffffff';
-        });
+        document.getElementById('fileName').textContent = fileInput.files[0].name;
+    }
 
-        dropArea.addEventListener('drop', (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            dropArea.style.background = '#ffffff';
-            fileInput.files = event.dataTransfer.files;
-            document.getElementById('fileName').textContent = fileInput.files[0].name;
-        });
+    function uploadImage() {
+        const formData = new FormData();
+        const fileInput = document.getElementById('fileInput');
+        formData.append('file', fileInput.files[0]);
 
-        dropArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-    </script>
+        fetch('http://localhost:5000/predict', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const varroaDetected = data.predictions[0] > 0.5;
+            const waspDetected = data.predictions[1] > 0.5;
+
+            document.getElementById('varroa-result').textContent = `Varroa detected: ${varroaDetected} (Certainty: ${data.predictions[0]})`;
+            document.getElementById('wasp-result').textContent = `Wasp detected: ${waspDetected} (Certainty: ${data.predictions[1]})`;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
 </html>
