@@ -84,7 +84,7 @@
         const fileInput = document.getElementById('fileInput');
         formData.append('file', fileInput.files[0]);
 
-        fetch('https://varroa-server-wqquv5zjga-nn.a.run.app:8082/predict', {
+        fetch('https://varroa-server-wqquv5zjga-nn.a.run.app/predict', {
             method: 'POST',
             body: formData
         })
