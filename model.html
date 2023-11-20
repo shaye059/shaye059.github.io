@@ -54,9 +54,14 @@
         </div>
         <input type="file" name="file" id="fileInput" style="display: none;" onchange="previewImage();">
         <p id="fileName"></p>
-        <input type="button" value="Upload Image" class="submit-btn" onclick="uploadImage();">
+        <input type="button" value="Run Prediction" class="submit-btn" onclick="uploadImage();">
     </form>
 </div>
+
+<div id="loading" style="display: none;">
+    <img src="images/bee-loading.gif" alt="Loading..." />
+</div>
+
 
 <div id="results">
     <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">
@@ -82,7 +87,15 @@
     function uploadImage() {
         const formData = new FormData();
         const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+
         formData.append('file', fileInput.files[0]);
+
+        // Show loading animation
+        loading.style.display = 'block';
+        // Hide previous results
+        results.style.display = 'none';
 
         fetch('https://varroa-server-wqquv5zjga-nn.a.run.app/predict', {
             method: 'POST',
@@ -95,9 +108,18 @@
 
             document.getElementById('varroa-result').textContent = `Varroa detected: ${varroaDetected} (Certainty: ${data.predictions[0]})`;
             document.getElementById('wasp-result').textContent = `Wasp detected: ${waspDetected} (Certainty: ${data.predictions[1]})`;
+
+            // Hide loading animation and show results
+            loading.style.display = 'none';
+            results.style.display = 'block';
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            // Hide loading animation
+            loading.style.display = 'none';
+        });
     }
+
 </script>
 </body>
 </html>
