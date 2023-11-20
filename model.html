@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .upload-container {
+            background-color: white;
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .drag-area {
+            cursor: pointer;
+            color: #333;
+            padding: 10px;
+        }
+        .drag-area:hover {
+            background-color: #f8f8f8;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="upload-container">
+    <h2>Image Upload</h2>
+    <form action="http://localhost:5000/predict" method="post" enctype="multipart/form-data" id="uploadForm">
+        <div class="drag-area" onclick="document.getElementById('fileInput').click();">
+            <p>Drag & Drop Image Here or <span style="color: blue; text-decoration: underline;">Browse</span></p>
+        </div>
+        <input type="file" name="file" id="fileInput" style="display: none;" onchange="document.getElementById('fileName').textContent = this.files[0].name">
+        <p id="fileName"></p>
+        <input type="submit" value="Upload Image" class="submit-btn">
+    </form>
+</div>
+
+<script>
+        const dropArea = document.querySelector('.drag-area'),
+              fileInput = document.getElementById('fileInput');
+
+        dropArea.addEventListener('dragover', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            dropArea.style.background = '#f8f8f8';
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.background = '#ffffff';
+        });
+
+        dropArea.addEventListener('drop', (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            dropArea.style.background = '#ffffff';
+            fileInput.files = event.dataTransfer.files;
+            document.getElementById('fileName').textContent = fileInput.files[0].name;
+        });
+
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+    </script>
+</body>
+</html>
