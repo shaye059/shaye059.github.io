@@ -7,14 +7,25 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding-bottom: 100px;
         }
         .upload-container {
             background-color: white;
             border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .results-container {
+            display: none;
+            background-color: white;
+            border: 2px solid #00FF00;
             border-radius: 5px;
             padding: 20px;
             width: 300px;
@@ -40,13 +51,97 @@
         .submit-btn:hover {
             background-color: #0056b3;
         }
+        .clear-btn {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .clear-btn:hover {
+            background-color: #D10000;
+        }
         #results {
             margin-top: 20px;
+        }
+        #contentContainer {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #loading img {
+            max-width: 100%;
+            height: auto;
+        }
+        .info-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-container h2, .info-container h3 {
+            color: #007bff;
+        }
+
+        .info-container p, .info-container ol {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .info-container ol {
+            list-style-position: inside;
+        }
+
+        .sample-images {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sample-images img {
+            width: 100px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-<div class="upload-container">
+
+<div class="info-container">
+    <h2>About the Tool</h2>
+    <p>Welcome to the interactive tool designed to help you distinguish between bees, wasps, and particularly identify the presence of varroa mites on bees. This tool uses a fine-tuned ResNet RS 350 model, leveraging the bee_dataset available through TensorFlow datasets.</p>
+
+    <h3>How It Works:</h3>
+    <ol>
+        <li>Upload an Image: You can drag and drop or browse to upload an image of a bee or wasp.</li>
+        <li>Run Prediction: Once the image is uploaded, click 'Run Prediction' to get the analysis.</li>
+        <li>View Results: The tool will display whether a wasp is present, and crucially, if there are varroa mites detected on a bee.</li>
+    </ol>
+
+    <h3>Varroa Mites - A Threat to Bees:</h3>
+    <p>Varroa mites are tiny, parasitic mites that can be detrimental to bee colonies. They attach to bees, weakening them by feeding on their body fluids, and can spread viruses. Detecting these mites early is vital for the health of bee populations, which are crucial pollinators in our ecosystems.</p>
+
+    <h3>Sample Images from the Dataset:</h3>
+    <div class="sample-images">
+        <img src="images/regular-bee.png" alt="Regular Bee">
+        <img src="images/bee-with-varroa-mite.png" alt="Bee with Varroa Mite">
+        <img src="images/wasp.png" alt="Wasp">
+    </div>
+
+    <p>Explore The Dataset and Model: For those interested in the technical details, explore the dataset analysis and model fine-tuning process in the tech_challenge.ipynb on this <a href="https://github.com/shaye059/VarroaClassifier">GitHub page</a>.</p>
+</div>
+
+<div class="upload-container" id="uploadContainer">
     <h2>Image Upload</h2>
     <form id="uploadForm" enctype="multipart/form-data">
         <div class="drag-area" onclick="document.getElementById('fileInput').click();">
@@ -58,41 +153,70 @@
     </form>
 </div>
 
-<div id="loading" style="display: none;">
-    <img src="images/bee-loading.gif" alt="Loading..." />
+
+<div id="imageContainer" style="display: none;" class="upload-container">
+    <button onclick="clearImage();" class="clear-btn">Clear Image</button>
+    <img id="preview" src="" alt="Image Preview" style="max-width: 300px;">
+    <input type="button" value="Run Prediction" class="submit-btn" onclick="uploadImage();">
 </div>
 
-
-<div id="results">
-    <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">
-    <p id="varroa-result"></p>
-    <p id="wasp-result"></p>
+<div id="contentContainer" class="results-container">
+    <div id="loading" style="display: none;">
+        <img src="images/bee-loading.gif" alt="Loading..." />
+    </div>
+    <div id="results">
+        <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">
+        <p id="varroa-result"></p>
+        <p id="wasp-result"></p>
+    </div>
 </div>
 
 <script>
     function previewImage() {
         const fileInput = document.getElementById('fileInput');
         const preview = document.getElementById('preview');
+        const uploadContainer = document.getElementById('uploadContainer');
+        const imageContainer = document.getElementById('imageContainer');
         const reader = new FileReader();
 
         reader.onload = function(e) {
             preview.src = e.target.result;
-            preview.style.display = 'block';
+            uploadContainer.style.display = 'none';
+            imageContainer.style.display = 'block';
         };
         reader.readAsDataURL(fileInput.files[0]);
-
-        document.getElementById('fileName').textContent = fileInput.files[0].name;
     }
+
+    function clearImage() {
+        const uploadContainer = document.getElementById('uploadContainer');
+        const imageContainer = document.getElementById('imageContainer');
+        const results_container = document.getElementById('contentContainer');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+
+        fileInput.value = ''; // Clear the file input
+        preview.src = ''; // Clear the image preview
+        imageContainer.style.display = 'none';
+        uploadContainer.style.display = 'block';
+        results_container.style.display = 'none';
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
 
     function uploadImage() {
         const formData = new FormData();
         const fileInput = document.getElementById('fileInput');
+        const results_container = document.getElementById('contentContainer');
         const loading = document.getElementById('loading');
         const results = document.getElementById('results');
 
         formData.append('file', fileInput.files[0]);
 
         // Show loading animation
+        results_container.style.display = 'block';
         loading.style.display = 'block';
         // Hide previous results
         results.style.display = 'none';
@@ -105,9 +229,14 @@
         .then(data => {
             const varroaDetected = data.predictions[0] > 0.5;
             const waspDetected = data.predictions[1] > 0.5;
+            const varroaRounded = (data.predictions[0] * 100).toFixed(2)
+            const waspRounded = (data.predictions[1] * 100).toFixed(2)
 
-            document.getElementById('varroa-result').textContent = `Varroa detected: ${varroaDetected} (Certainty: ${data.predictions[0]})`;
-            document.getElementById('wasp-result').textContent = `Wasp detected: ${waspDetected} (Certainty: ${data.predictions[1]})`;
+            const varroaDetectedStr = capitalizeFirstLetter(varroaDetected.toString());
+            const waspDetectedStr = capitalizeFirstLetter(waspDetected.toString());
+
+            document.getElementById('varroa-result').innerHTML = `<strong>Varroa detected:</strong> ${varroaDetectedStr} (estimate: ${varroaRounded}%)`;
+            document.getElementById('wasp-result').innerHTML = `<strong>Wasp detected:</strong> ${waspDetectedStr} (estimate: ${waspRounded}%)`;
 
             // Hide loading animation and show results
             loading.style.display = 'none';
