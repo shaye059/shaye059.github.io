@@ -7,10 +7,12 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding-bottom: 100px;
         }
         .upload-container {
             background-color: white;
@@ -74,9 +76,70 @@
             max-width: 100%;
             height: auto;
         }
+        .info-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-container h2, .info-container h3 {
+            color: #007bff;
+        }
+
+        .info-container p, .info-container ol {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .info-container ol {
+            list-style-position: inside;
+        }
+
+        .sample-images {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sample-images img {
+            width: 100px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
+
+<div class="info-container">
+    <h2>About the Tool</h2>
+    <p>Welcome to the interactive tool designed to help you distinguish between bees, wasps, and particularly identify the presence of varroa mites on bees. This tool uses a fine-tuned ResNet RS 350 model, leveraging the bee_dataset available through TensorFlow datasets.</p>
+
+    <h3>How It Works:</h3>
+    <ol>
+        <li>Upload an Image: You can drag and drop or browse to upload an image of a bee or wasp.</li>
+        <li>Run Prediction: Once the image is uploaded, click 'Run Prediction' to get the analysis.</li>
+        <li>View Results: The tool will display whether a wasp is present, and crucially, if there are varroa mites detected on a bee.</li>
+    </ol>
+
+    <h3>Varroa Mites - A Threat to Bees:</h3>
+    <p>Varroa mites are tiny, parasitic mites that can be detrimental to bee colonies. They attach to bees, weakening them by feeding on their body fluids, and can spread viruses. Detecting these mites early is vital for the health of bee populations, which are crucial pollinators in our ecosystems.</p>
+
+    <h3>Sample Images from the Dataset:</h3>
+    <div class="sample-images">
+        <img src="images/regular-bee.png" alt="Regular Bee">
+        <img src="images/bee-with-varroa-mite.png" alt="Bee with Varroa Mite">
+        <img src="images/wasp.png" alt="Wasp">
+    </div>
+
+    <p>Explore The Dataset and Model: For those interested in the technical details, explore the dataset analysis and model fine-tuning process in the tech_challenge.ipynb on this <a href="https://github.com/shaye059/VarroaClassifier">GitHub page</a>.</p>
+</div>
 
 <div class="upload-container" id="uploadContainer">
     <h2>Image Upload</h2>
@@ -107,12 +170,6 @@
         <p id="wasp-result"></p>
     </div>
 </div>
-
-<!--<div id="results">-->
-<!--    <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">-->
-<!--    <p id="varroa-result"></p>-->
-<!--    <p id="wasp-result"></p>-->
-<!--</div>-->
 
 <script>
     function previewImage() {
