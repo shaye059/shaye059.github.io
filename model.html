@@ -21,6 +21,9 @@
             padding: 20px;
             width: 300px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .results-container {
             display: none;
@@ -71,7 +74,12 @@
             text-align: center;
             padding: 20px;
         }
-
+        #uploadContainer img {
+            max-width: 100%; /* ensures the image is not wider than the container */
+            max-height: 400px; /* adjust as needed */
+            height: auto; /* maintain aspect ratio */
+            margin-top: 10px; /* add some space above the image */
+        }
         #loading img {
             max-width: 100%;
             height: auto;
@@ -113,6 +121,24 @@
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+        #imageContainer {
+            background-color: white;
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        #imageContainer #preview {
+            max-width: 100%; /* ensures the image is not wider than the container */
+            max-height: 400px; /* adjust as needed */
+            height: auto; /* maintain aspect ratio */
+            margin-top: 10px; /* add some space above the image */
+        }
     </style>
 </head>
 <body>
@@ -144,8 +170,8 @@
 <div class="upload-container" id="uploadContainer">
     <h2>Image Upload</h2>
     <form id="uploadForm" enctype="multipart/form-data">
-        <div class="drag-area" onclick="document.getElementById('fileInput').click();">
-            <p>Drag & Drop Image Here or <span style="color: blue; text-decoration: underline;">Browse</span></p>
+        <div class="drag-area">
+            <p>Drag & Drop Image Here or <span id="browseButton" style="color: blue; text-decoration: underline; cursor: pointer;">Browse</span></p>
         </div>
         <input type="file" name="file" id="fileInput" style="display: none;" onchange="previewImage();">
         <p id="fileName"></p>
@@ -248,6 +274,55 @@
             loading.style.display = 'none';
         });
     }
+    function allowDrag(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const uploadContainer = document.getElementById('uploadContainer');
+        const fileInput = document.getElementById('fileInput');
+        const files = e.dataTransfer.files;
+
+        if (files.length) {
+            fileInput.files = files;
+            previewImage(); // Call your existing previewImage function
+        }
+
+        uploadContainer.style.border = '2px dashed #007bff'; // Reset border color after drop
+    }
+
+    function highlightDragArea(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const uploadContainer = document.getElementById('uploadContainer');
+        uploadContainer.style.border = '2px dashed #0056b3'; // Highlight border color during drag over
+    }
+
+    function unhighlightDragArea(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const uploadContainer = document.getElementById('uploadContainer');
+        uploadContainer.style.border = '2px dashed #007bff'; // Reset border color when drag leaves
+    }
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const uploadContainer = document.getElementById('uploadContainer');
+        const browseButton = document.getElementById('browseButton');
+
+        uploadContainer.addEventListener('dragover', highlightDragArea);
+        uploadContainer.addEventListener('dragenter', allowDrag);
+        uploadContainer.addEventListener('dragleave', unhighlightDragArea);
+        uploadContainer.addEventListener('drop', handleDrop);
+        browseButton.addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+    });
+
 
 </script>
 </body>
