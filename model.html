@@ -220,6 +220,12 @@
             imageContainer.style.display = 'block';
         };
         reader.readAsDataURL(fileInput.files[0]);
+
+        // Send event to Google Analytics
+        gtag('event', 'preview_image', {
+            'event_category': 'Image Upload',
+            'event_label': 'Image Preview'
+        });
     }
 
     function clearImage() {
@@ -272,6 +278,15 @@
 
             document.getElementById('varroa-result').innerHTML = `<strong>Varroa detected:</strong> ${varroaDetectedStr} (estimate: ${varroaRounded}%)`;
             document.getElementById('wasp-result').innerHTML = `<strong>Wasp detected:</strong> ${waspDetectedStr} (estimate: ${waspRounded}%)`;
+
+            const predictionLabel = `Varroa: ${varroaRounded}%, Wasp: ${waspRounded}%`;
+
+            // Send event to Google Analytics with prediction data
+            gtag('event', 'upload_predict', {
+                'event_category': 'Image Upload',
+                'event_label': 'Upload and Prediction',
+                'value': predictionLabel
+            });
 
             // Hide loading animation and show results
             loading.style.display = 'none';
