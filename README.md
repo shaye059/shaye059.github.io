@@ -3,4 +3,7 @@ Spencer Hayes-Laverdiere | shaye059
 
 https://spencer-hayes.me/
 
-A simple one-page website with projects, past work experience and more.
+A portfolio website with projects, past work experience and more.
+
+Also hosts the frontend for a computer vision training and deployment demo:
+https://spencer-hayes.me/model
