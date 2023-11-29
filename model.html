@@ -271,7 +271,7 @@
         .then(response => {
             if (!response.ok) {
                 if (response.status === 415) {
-                    throw new Error("Unsupported media type. Please upload a valid image.");
+                    throw new Error("Unsupported media type. Please upload a valid image (try .JPG).");
                 } else if (response.status === 413) {
                     throw new Error("File size too large. Please upload a smaller image.");
                 }
