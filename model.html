@@ -199,6 +199,7 @@
     <div id="loading" style="display: none;">
         <img src="images/bee-loading.gif" alt="Loading..." />
     </div>
+    <p id="errorMessage" style="display: none; color: red;"></p>
     <div id="results">
         <img id="preview" src="" alt="Image Preview" style="display:none; max-width: 300px;">
         <p id="varroa-result"></p>
@@ -256,17 +257,28 @@
 
         formData.append('file', fileInput.files[0]);
 
+        // Hide previous results
+        results.style.display = 'none';
+        errorMessage.style.display = 'none';
         // Show loading animation
         results_container.style.display = 'block';
         loading.style.display = 'block';
-        // Hide previous results
-        results.style.display = 'none';
 
         fetch('https://varroa-server-wqquv5zjga-nn.a.run.app/predict', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 415) {
+                    throw new Error("Unsupported media type. Please upload a valid image (try .JPG).");
+                } else if (response.status === 413) {
+                    throw new Error("File size too large. Please upload a smaller image.");
+                }
+                throw new Error("An error occurred while processing the image.");
+            }
+            return response.json();
+        })
         .then(data => {
             const varroaDetected = data.predictions[0] > 0.5;
             const waspDetected = data.predictions[1] > 0.5;
@@ -294,6 +306,8 @@
         })
         .catch(error => {
             console.error('Error:', error);
+            errorMessage.textContent = error.message;
+            errorMessage.style.display = 'block';
             // Hide loading animation
             loading.style.display = 'none';
         });
