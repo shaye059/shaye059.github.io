@@ -3529,3 +3529,13 @@ input, select, textarea {
 			}
 
 	}
+	.custom-list-section ul {
+        list-style-type: disc; /* Optional: removes bullet points if desired */
+        padding: 0; /* Optional: removes padding around the list */
+    }
+
+    .custom-list-section ul li {
+        border: none; /* Removes borders around list items */
+        margin: 0; /* Adjust margin to remove separation */
+        padding: 0; /* Optional: Adjust padding inside list items if needed */
+    }
