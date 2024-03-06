@@ -9,7 +9,7 @@
 			gtag('js', new Date());
 
 			gtag('config', 'G-1D23VKTSPL');
-		</script>
+	</script>
     <title>Image Upload</title>
     <style>
         body {
@@ -185,6 +185,7 @@
         <input type="file" name="file" id="fileInput" style="display: none;" onchange="previewImage();">
         <p id="fileName"></p>
         <input type="button" value="Run Prediction" class="submit-btn" onclick="uploadImage();">
+        <p style="color: red; font-weight: bold;" id="offlineMessage" style="display: none;">Prediction server is currently offline. Please email spencer.hayes@meiacademy.com to request a demo.</p>
     </form>
 </div>
 
@@ -360,6 +361,10 @@
             document.getElementById('fileInput').click();
         });
     });
+    function showOfflineMessage() {
+        const offlineMessage = document.getElementById('offlineMessage');
+        offlineMessage.style.display = 'block';
+    }
 
 
 </script>
