@@ -2,184 +2,176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>California Summer Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My VisionOS-Inspired Portfolio</title>
   <style>
+    /*—— Variables ——*/
     :root {
-      --color-bg: #FFF9E5;           /* Light creamy yellow */
-      --color-bg-alt: #E0F9F2;       /* Soft aqua mint */
-      --color-text: #333333;         /* Dark charcoal */
-      --color-accent: #FFA726;       /* Sunny orange */
-      --color-teal: #26C6DA;         /* Bright teal */
-      --radius: 24px;
-      --spacing: 32px;
+      --clr-bg: #EAF5FF;
+      --clr-glass: rgba(255,255,255,0.2);
+      --clr-glass-border: rgba(255,255,255,0.4);
+      --clr-accent: #25C6AE;
+      --clr-text: #333333;
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --gap: 24px;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /*—— Global Reset ——*/
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.5;
+      font-family: "SF Pro Text", sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height:1.6;
     }
-    a { text-decoration: none; color: var(--color-accent); }
+    img { max-width:100%; display:block; border-radius: var(--radius); }
+    a { color: var(--clr-accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    /*—— Glass Card ——*/
+    .card {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: var(--gap);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    /*—— Layout ——*/
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
     header {
-      position: sticky;
-      top: 0;
-      background: var(--color-bg);
-      backdrop-filter: blur(12px);
-      padding: calc(var(--spacing) * 0.75);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: var(--gap);
     }
-    nav ul { display: flex; gap: var(--spacing); }
-    nav a { font-weight: 500; font-size: 16px; }
-
-    .container { max-width: 96%; margin: auto; padding: var(--spacing); }
-
+    nav a { margin-left: 16px; font-weight:600; }
+    /*—— Hero ——*/
     .hero {
-      position: relative;
-      background: url('images/sunset.jpg') center/cover no-repeat;
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
       align-items: center;
-      text-align: center;
-      height: calc(100vh - 2%);
-      margin-bottom: 2vh;
+      margin-bottom: 72px;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.3);
-      border-radius: var(--radius);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-    .hero h1 {
-      font-size: 64px;
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      color: #fff;
-      margin-bottom: var(--spacing);
-    }
-    .hero p {
-      font-size: 18px;
-      max-width: 600px;
-      margin: auto;
-      margin-bottom: var(--spacing);
-      color: #f5f5f5;
+    .hero-text h1 {
+      font-family: "SF Pro Display", sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
     }
     .btn-primary {
       display: inline-block;
-      background: var(--color-accent);
-      color: #fff;
-      padding: 16px 32px;
+      background: var(--clr-accent);
+      color: white;
       border-radius: var(--radius);
-      font-weight: 700;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      padding: 0.75em 1.5em;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: opacity 0.2s;
     }
-    .btn-primary:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
-
-    section {
-      padding: calc(var(--spacing) * 2) 0;
-    }
-    .grid-portfolio {
+    .btn-primary:hover { opacity: 0.9; }
+    /*—— Projects Grid ——*/
+    .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--spacing);
+      gap: var(--gap);
     }
-    .card {
-      background: rgba(255,255,255,0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: var(--radius);
-      overflow: hidden;
-      padding: var(--spacing);
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-6px);
-    }
-    .card img {
-      width: 100%;
-      height: auto;
-      border-radius: var(--radius);
-      margin-bottom: var(--spacing);
-    }
-    .card h3 { font-weight: 700; margin-bottom: 8px; }
-
+    .project img { margin-bottom: 16px; }
+    .project h3 { font-size:1.25rem; margin-bottom:8px; }
+    /*—— Footer ——*/
     footer {
-      text-align: center;
-      font-size: 14px;
-      padding: var(--spacing) 0;
+      text-align:center;
+      padding: var(--gap) 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; text-align:center; }
+      .hero img { order:-1; margin-bottom:16px; }
     }
   </style>
 </head>
 <body>
-  <header class="container">
-    <div class="logo" style="font-size: 24px; font-weight: 900;"><strong>MyName</strong></div>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <!-- Navigation -->
+    <header>
+      <div class="logo">MyPortfolio</div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
 
-  <main>
-    <section class="hero container" style="border-radius: var(--radius); overflow: hidden;">
-      <div class="hero-content">
-        <h1>Welcome to My Pastel Utopia</h1>
-        <p>Crafting a summer anime meets California Baja vibe with sun-soaked colors and bold design.</p>
-        <a href="#portfolio" class="btn-primary">View My Work</a>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Welcome to My VisionOS Portfolio</h1>
+        <p>Blending cutting-edge glassmorphic UI with sleek, modern design to showcase my work.</p>
+        <a href="#projects" class="btn-primary">View My Work</a>
+      </div>
+      <div class="hero-image card">
+        <img src="https://via.placeholder.com/600x400" alt="3D liquid glass effect">
       </div>
     </section>
 
-    <section id="about" class="container">
-      <h2>About Me</h2>
-      <p>I'm Spencer, blending hand-drawn charm with sunlit palettes to create warm, modern UIs that transport you to endless summer days.</p>
-    </section>
-
-    <section id="portfolio" class="container">
-      <h2>My Portfolio</h2>
-      <div class="grid-portfolio">
-        <div class="card">
-          <img src="https://via.placeholder.com/600x400.png?text=Project+1" alt="Project 1 screenshot">
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Selected Projects</h2>
+      <div class="projects">
+        <div class="project card">
+          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
           <h3>Project One</h3>
-          <p>Interactive summer-themed web animation.</p>
+          <p>A sleek web app with immersive glass UI interactions.</p>
         </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/600x400.png?text=Project+2" alt="Project 2 screenshot">
+        <div class="project card">
+          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
           <h3>Project Two</h3>
-          <p>Dreamlike nonprofit landing page with watercolor accents.</p>
+          <p>Augmented-reality prototype built for VisionOS.</p>
         </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/600x400.png?text=Project+3" alt="Project 3 screenshot">
+        <div class="project card">
+          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
           <h3>Project Three</h3>
-          <p>Spatial interface inspired by VisionOS layering.</p>
+          <p>Data visualization dashboard using frosted glass panels.</p>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="container" style="background: var(--color-bg-alt); border-radius: var(--radius);">
-      <h2>Get in Touch</h2>
-      <p>Interested in a sun-kissed design or just want to chat? Shoot me a message!</p>
-      <a href="mailto:youremail@example.com" class="btn-primary">Email Me</a>
+    <!-- Contact -->
+    <section id="contact" style="margin-top:72px;">
+      <div class="card">
+        <h2>Get In Touch</h2>
+        <p>Interested in working together? Send me a message:</p>
+        <form>
+          <label>
+            Name<br>
+            <input type="text" placeholder="Your Name" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+          </label>
+          <label>
+            Email<br>
+            <input type="email" placeholder="you@example.com" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+          </label>
+          <label>
+            Message<br>
+            <textarea rows="4" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;"></textarea>
+          </label>
+          <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+      </div>
     </section>
-  </main>
 
-  <footer>
-    &copy; 2025 Spencer Hayes. All rights reserved.
-  </footer>
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 MyPortfolio — Built with ❤️ and glassmorphism
+    </footer>
+  </div>
 </body>
 </html>
