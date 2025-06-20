@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pastel Utopia Portfolio</title>
+  <title>California Summer Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-bg: #FBEFFB;
-      --color-bg-alt: #FFF5E6;
-      --color-text: #333333;
-      --color-accent: #FF6B6B;
-      --color-teal: #4ECDC4;
+      --color-bg: #FFF9E5;           /* Light creamy yellow */
+      --color-bg-alt: #E0F9F2;       /* Soft aqua mint */
+      --color-text: #333333;         /* Dark charcoal */
+      --color-accent: #FFA726;       /* Sunny orange */
+      --color-teal: #26C6DA;         /* Bright teal */
       --radius: 24px;
       --spacing: 32px;
     }
@@ -28,9 +28,9 @@
     header {
       position: sticky;
       top: 0;
-      background: rgba(255,255,255,0.7);
+      background: var(--color-bg);
       backdrop-filter: blur(12px);
-      padding: var(--spacing);
+      padding: calc(var(--spacing) * 0.75);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -38,18 +38,34 @@
     nav ul { display: flex; gap: var(--spacing); }
     nav a { font-weight: 500; font-size: 16px; }
 
-    .container { max-width: 1200px; margin: auto; padding: var(--spacing); }
+    .container { max-width: 96%; margin: auto; padding: var(--spacing); }
 
     .hero {
+      position: relative;
+      background: url('images/sunset.jpg') center/cover no-repeat;
       display: grid;
       grid-template-columns: 1fr;
+      align-items: center;
       text-align: center;
-      padding: calc(var(--spacing) * 2) 0;
+      height: calc(100vh - 2%);
+      margin-bottom: 2vh;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
     }
     .hero h1 {
       font-size: 64px;
       font-weight: 900;
       letter-spacing: 0.02em;
+      color: #fff;
       margin-bottom: var(--spacing);
     }
     .hero p {
@@ -57,6 +73,7 @@
       max-width: 600px;
       margin: auto;
       margin-bottom: var(--spacing);
+      color: #f5f5f5;
     }
     .btn-primary {
       display: inline-block;
@@ -69,7 +86,7 @@
     }
     .btn-primary:hover {
       transform: scale(1.03);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
 
     section {
@@ -81,9 +98,9 @@
       gap: var(--spacing);
     }
     .card {
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.6);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
       border-radius: var(--radius);
       overflow: hidden;
       padding: var(--spacing);
@@ -100,11 +117,6 @@
     }
     .card h3 { font-weight: 700; margin-bottom: 8px; }
 
-    @media (min-width: 768px) {
-      .hero { grid-template-columns: 1fr 1fr; text-align: left; align-items: center; }
-      .hero img { border-radius: var(--radius); max-width: 100%; }
-    }
-
     footer {
       text-align: center;
       font-size: 14px;
@@ -114,7 +126,7 @@
 </head>
 <body>
   <header class="container">
-    <div class="logo"><strong>MyName</strong></div>
+    <div class="logo" style="font-size: 24px; font-weight: 900;"><strong>MyName</strong></div>
     <nav>
       <ul>
         <li><a href="#about">About</a></li>
@@ -125,18 +137,17 @@
   </header>
 
   <main>
-    <section class="hero container">
-      <div>
+    <section class="hero container" style="border-radius: var(--radius); overflow: hidden;">
+      <div class="hero-content">
         <h1>Welcome to My Pastel Utopia</h1>
-        <p>I'm a designer &amp; developer crafting warm, dreamlike experiences grounded by clean layouts and bold typography.</p>
+        <p>Crafting a summer anime meets California Baja vibe with sun-soaked colors and bold design.</p>
         <a href="#portfolio" class="btn-primary">View My Work</a>
       </div>
-      <img src="https://via.placeholder.com/500x400.png?text=Dream+Illustration" alt="Dreamlike illustration">
     </section>
 
     <section id="about" class="container">
       <h2>About Me</h2>
-      <p>Hello! I'm Spencer, a creative technologist blending the whimsy of hand-drawn art with polished modern UI. I love bringing stories to life through code and illustration.</p>
+      <p>I'm Spencer, blending hand-drawn charm with sunlit palettes to create warm, modern UIs that transport you to endless summer days.</p>
     </section>
 
     <section id="portfolio" class="container">
@@ -145,24 +156,24 @@
         <div class="card">
           <img src="https://via.placeholder.com/600x400.png?text=Project+1" alt="Project 1 screenshot">
           <h3>Project One</h3>
-          <p>Interactive web animation inspired by nature.</p>
+          <p>Interactive summer-themed web animation.</p>
         </div>
         <div class="card">
           <img src="https://via.placeholder.com/600x400.png?text=Project+2" alt="Project 2 screenshot">
           <h3>Project Two</h3>
-          <p>Nonprofit landing page with watercolor elements.</p>
+          <p>Dreamlike nonprofit landing page with watercolor accents.</p>
         </div>
         <div class="card">
           <img src="https://via.placeholder.com/600x400.png?text=Project+3" alt="Project 3 screenshot">
           <h3>Project Three</h3>
-          <p>VisionOS-inspired spatial interface prototype.</p>
+          <p>Spatial interface inspired by VisionOS layering.</p>
         </div>
       </div>
     </section>
 
     <section id="contact" class="container" style="background: var(--color-bg-alt); border-radius: var(--radius);">
       <h2>Get in Touch</h2>
-      <p>Have a project or want to say hello? Drop me a line!</p>
+      <p>Interested in a sun-kissed design or just want to chat? Shoot me a message!</p>
       <a href="mailto:youremail@example.com" class="btn-primary">Email Me</a>
     </section>
   </main>
