@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My VisionOS-Inspired Portfolio</title>
   <style>
-    /*—— Variables ——*/
     :root {
       --clr-bg: #EAF5FF;
       --clr-glass: rgba(255,255,255,0.2);
@@ -16,7 +15,6 @@
       --radius: 12px;
       --gap: 24px;
     }
-    /*—— Global Reset ——*/
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: "SF Pro Text", sans-serif;
@@ -27,7 +25,6 @@
     img { max-width:100%; display:block; border-radius: var(--radius); }
     a { color: var(--clr-accent); text-decoration:none; }
     a:hover { text-decoration:underline; }
-    /*—— Glass Card ——*/
     .card {
       background: var(--clr-glass);
       backdrop-filter: blur(16px);
@@ -41,7 +38,6 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     }
-    /*—— Layout ——*/
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -54,7 +50,6 @@
       margin-bottom: var(--gap);
     }
     nav a { margin-left: 16px; font-weight:600; }
-    /*—— Hero ——*/
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -78,15 +73,12 @@
       transition: opacity 0.2s;
     }
     .btn-primary:hover { opacity: 0.9; }
-    /*—— Projects Grid ——*/
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: var(--gap);
     }
-    .project img { margin-bottom: 16px; }
     .project h3 { font-size:1.25rem; margin-bottom:8px; }
-    /*—— Footer ——*/
     footer {
       text-align:center;
       padding: var(--gap) 0;
@@ -119,7 +111,8 @@
         <a href="#projects" class="btn-primary">View My Work</a>
       </div>
       <div class="hero-image card">
-        <img src="https://via.placeholder.com/600x400" alt="3D liquid glass effect">
+        <!-- Glass-effect abstract image -->
+        <img src="https://images.pexels.com/photos/32634580/pexels-photo-32634580.jpeg" alt="3D liquid glass effect">
       </div>
     </section>
 
@@ -128,17 +121,17 @@
       <h2>Selected Projects</h2>
       <div class="projects">
         <div class="project card">
-          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
+          <img src="https://images.pexels.com/photos/32634570/pexels-photo-32634570.jpeg" alt="Web UI design">
           <h3>Project One</h3>
           <p>A sleek web app with immersive glass UI interactions.</p>
         </div>
         <div class="project card">
-          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
+          <img src="https://images.pexels.com/photos/4622481/pexels-photo-4622481.jpeg" alt="Augmented reality prototype">
           <h3>Project Two</h3>
           <p>Augmented-reality prototype built for VisionOS.</p>
         </div>
         <div class="project card">
-          <img src="https://via.placeholder.com/400x250" alt="Project screenshot">
+          <img src="https://images.pexels.com/photos/3694710/pexels-photo-3694710.jpeg" alt="Data visualization dashboard">
           <h3>Project Three</h3>
           <p>Data visualization dashboard using frosted glass panels.</p>
         </div>
