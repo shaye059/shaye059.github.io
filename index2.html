@@ -216,6 +216,102 @@
       gap: var(--gap);
     }
     .project h3 { font-size:1.25rem; margin-bottom:8px; }
+    
+    /* Experience Section Styles */
+    .experience {
+      margin: 72px 0;
+    }
+    
+    .experience-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+    
+    .experience-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: var(--gap);
+      align-items: start;
+    }
+    
+    .experience-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--clr-accent);
+      margin-top: 4px;
+    }
+    
+    .experience-content {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .experience-content:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    
+    .experience-header {
+      margin-bottom: 12px;
+    }
+    
+    .experience-header h3 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      color: var(--clr-text);
+    }
+    
+    .experience-meta {
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .experience-achievements {
+      list-style: none;
+      margin-top: 16px;
+    }
+    
+    .experience-achievements li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    
+    .experience-achievements li:before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--clr-accent);
+      font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+      .experience-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .experience-icon {
+        justify-self: center;
+        margin-bottom: 8px;
+      }
+    }
     footer {
       text-align:center;
       padding: var(--gap) 0;
@@ -237,7 +333,7 @@
     <!-- Navigation -->
     <nav class="main-nav">
       <a href="#" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Explore</a>
-      <a href="#projects" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Gallery</a>
+      <a href="#experience" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Experience</a>
       <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Contact</a>
     </nav>
     
@@ -246,7 +342,7 @@
       <div class="logo">Spencer Hayes-Laverdière</div>
       <nav class="main-nav" style="position: relative; top: auto; left: auto; right: auto; transform: none; background: none; border: none; box-shadow: none; backdrop-filter: none; margin: 0;">
         <a href="#" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Explore</a>
-        <a href="#projects" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Gallery</a>
+        <a href="#experience" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Experience</a>
         <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Contact</a>
       </nav>
     </div>
@@ -259,11 +355,62 @@
       <div class="hero-text">
         <h1>Spencer Hayes-Laverdière</h1>
         <p>Blending cutting-edge glassmorphic UI with sleek, modern design to showcase my work.</p>
-        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#experience" class="btn-primary">View My Experience</a>
       </div>
       <div class="hero-image card">
         <!-- Glass-effect abstract image -->
         <img src="https://images.pexels.com/photos/32634580/pexels-photo-32634580.jpeg" alt="3D liquid glass effect">
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="experience">
+      <h2>Professional Experience</h2>
+      <div class="experience-timeline">
+        <div class="experience-item">
+          <div class="experience-icon">CM</div>
+          <div class="experience-content">
+            <div class="experience-header">
+              <h3><a href="https://crossingminds.com/" target="_blank">Crossing Minds</a></h3>
+              <div class="experience-meta">Data/Machine Learning Engineer • 2023 - Current • San Francisco, CA (Remote)</div>
+            </div>
+            <ul class="experience-achievements">
+              <li>Designed and deployed a data pipeline and analytics API using Python and Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in billing efficiency</li>
+              <li>Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by over 50%</li>
+              <li>Added schema checks to data ingestion API to increase HTTP 202 response completion rate by 17%</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="experience-item">
+          <div class="experience-icon">LV</div>
+          <div class="experience-content">
+            <div class="experience-header">
+              <h3><a href="https://www.leav.co/" target="_blank">Leav</a></h3>
+              <div class="experience-meta">Data Scientist & Manager • 2021 - 2023 • Montreal, QC</div>
+            </div>
+            <ul class="experience-achievements">
+              <li>Led and managed the data department, overseeing all data-related projects and mentoring an intern</li>
+              <li>Developed and deployed a real-time recommendation algorithm using mlxtend and Flask, serving hundreds of requests per second</li>
+              <li>Designed robust end-to-end ELT data pipeline with redundancy that maintained zero data loss during Cloud platform outages</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="experience-item">
+          <div class="experience-icon">SF</div>
+          <div class="experience-content">
+            <div class="experience-header">
+              <h3><a href="https://www.squarefeet.ai" target="_blank">SquareFeet.ai</a></h3>
+              <div class="experience-meta">Machine Learning Engineer • 2020 - 2021 • Montreal, QC</div>
+            </div>
+            <ul class="experience-achievements">
+              <li>Spearheaded development of pricing algorithms with mixed data inputs, contributing to successful company acquisition</li>
+              <li>Created property search feature handling 5M+ properties with hundreds of features</li>
+              <li>Integrated explainable AI tools like SHAP for model insights and bias tracking</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
