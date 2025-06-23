@@ -1,34 +1,65 @@
 [
   {
+    "id": "off-script",
+    "company": "Off/Script",
+    "url": "#",
+    "role": "Machine Learning Engineer",
+    "period": "Apr 2024 - Sept 2024",
+    "location": "Remote",
+    "year": "2024",
+    "initials": "OS",
+    "side": "right",
+    "achievements": [
+      "Reduced GPU VRAM requirements by 50%, saving the company $10k per month on server costs",
+      "Developed a sketch-to-image tool using Stable Diffusion enabling users to generate images starting from an existing sketch",
+      "Led the development of the ML team's REST API, serving endpoints including a new feed model that reduced latency from over 3 seconds to under 500ms, incorporating automated documentation, testing, and schema validation"
+    ]
+  },
+  {
     "id": "crossing-minds",
     "company": "Crossing Minds",
     "url": "https://crossingminds.com/",
     "role": "Data/Machine Learning Engineer",
-    "period": "2023 - Current",
+    "period": "Jan 2023 - Apr 2024",
     "location": "San Francisco, CA (Remote)",
     "year": "2023",
     "initials": "CM",
-    "side": "right",
+    "side": "left",
     "achievements": [
-      "Designed and deployed a data pipeline and analytics API using Python and Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in billing efficiency",
-      "Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by over 50%",
-      "Added schema checks to data ingestion API to increase HTTP 202 response completion rate by 17%"
+      "Successfully designed and deployed data pipelines using Python and Airflow for a LangChain Agent leading to a 30% increase in billing efficiency",
+      "Added 4 new endpoints to a distributed micro-service REST API platform on Kubernetes that serves real-time low-latency recommendations",
+      "Engineered a hybrid analytics and logging endpoint that fed events to Looker and BigQuery, reducing frontend debug time by over 50%, while also enhancing long-term analytics capabilities"
     ]
   },
   {
     "id": "leav",
     "company": "Leav",
     "url": "https://www.leav.co/",
-    "role": "Data Scientist & Manager",
-    "period": "2021 - 2023",
+    "role": "Head of Data",
+    "period": "Sept 2021 - Jan 2023",
     "location": "Montreal, QC",
     "year": "2021",
     "initials": "LV",
+    "side": "right",
+    "achievements": [
+      "Designed and deployed a robust data infrastructure for real-time event streaming on Azure and oversaw its migration to GCP using Pub/Sub, Dataflow, and Cloud Storage",
+      "Oversaw training and deployment of a real-time recommendation API in Python with Flask, served on Cloud Run using Docker containerization, achieving sub 500 millisecond response times for hundreds of requests per second",
+      "Participated in the development and optimization of a real-time computer vision model using Tensorflow and NVIDIA TensorRT"
+    ]
+  },
+  {
+    "id": "anagraph",
+    "company": "Anagraph",
+    "url": "https://anagraph.io/",
+    "role": "Data Scientist - Contract",
+    "period": "May 2021 - Sept 2021",
+    "location": "Montreal, QC",
+    "year": "2021",
+    "initials": "AN",
     "side": "left",
     "achievements": [
-      "Led and managed the data department, overseeing all data-related projects and mentoring an intern",
-      "Developed and deployed a real-time recommendation algorithm using mlxtend and Flask, serving hundreds of requests per second",
-      "Designed robust end-to-end ELT data pipeline with redundancy that maintained zero data loss during Cloud platform outages"
+      "Delivered specialized geospatial data analyses using Python and SQL",
+      "Designed and built in-house data science infrastructure, including new DBT testing methods and a JupyterHub deployment"
     ]
   },
   {
@@ -36,15 +67,29 @@
     "company": "SquareFeet.ai",
     "url": "https://www.squarefeet.ai",
     "role": "Machine Learning Engineer",
-    "period": "2020 - 2021",
+    "period": "Sept 2020 - May 2021",
     "location": "Montreal, QC",
     "year": "2020",
     "initials": "SF",
     "side": "right",
     "achievements": [
-      "Spearheaded development of pricing algorithms with mixed data inputs, contributing to successful company acquisition",
-      "Created property search feature handling 5M+ properties with hundreds of features",
-      "Integrated explainable AI tools like SHAP for model insights and bias tracking"
+      "Spearheaded the development of pricing and search algorithms on datasets of 10+ million instances through tools like Tensorflow, PyTorch, XGBoost, and PostGIS, contributing to the company's successful acquisition",
+      "Setup MLOps tools like MLFlow, SHAP, and Data Version Control to track model insights, perform validation, and simplify deployment",
+      "Trained and deployed large cloud models using accelerated hardware through AWS' SageMaker"
+    ]
+  },
+  {
+    "id": "university-ottawa",
+    "company": "University of Ottawa",
+    "url": "#",
+    "role": "Instructor",
+    "period": "2018 - 2020",
+    "location": "Ottawa, ON",
+    "year": "2018",
+    "initials": "UO",
+    "side": "left",
+    "achievements": [
+      "Designed and taught Electrical & Computer Engineering courses, focusing on practical skills like coding and 3D printing"
     ]
   }
 ]
