@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nav Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .nav-item {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(135, 206, 235, 0.1));
+      color: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+    }
+    
+    .nav-item:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-sky-950 to-indigo-900 min-h-screen flex items-start justify-center">
+
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-4 py-2 shadow-xl flex space-x-2 text-white font-medium text-sm z-50">
+        <a href="#" class="nav-item text-white/80">Explore</a>
+        <a href="#" class="nav-item text-white/80">Gallery</a>
+        <a href="#" class="nav-item text-white/80">Contact</a>
+      </nav>
+
+</body>
+</html>

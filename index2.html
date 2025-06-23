@@ -44,18 +44,155 @@
       padding: var(--gap);
     }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: var(--gap);
     }
-    nav a { margin-left: 16px; font-weight:600; }
+    .nav-item {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(135, 206, 235, 0.1));
+      color: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+    }
+    
+    .nav-item:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+    
+    /* Desktop Navigation (default) */
+    .main-nav {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 8px 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 8px;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+    
+    .logo {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+
+    /* Option 1: Simple Sticky Nav */
+    @media (max-width: 768px) {
+      .mobile-option-1 .hero {
+        margin-top: 80px;
+      }
+    }
+    
+    /* Hide logo completely for Option 1 (desktop and mobile) */
+    .mobile-option-1 .logo {
+      display: none;
+    }
+    
+    /* Center nav on desktop for Option 1 */
+    .mobile-option-1 .main-nav {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      padding: 8px 24px;
+      gap: 12px;
+    }
+    
+    .mobile-option-1 .nav-item {
+      padding: 8px 20px !important;
+    }
+
+    /* Option 3: Bottom Navigation */
+    @media (max-width: 768px) {
+      .mobile-option-3 .logo {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        text-align: center;
+        margin: 24px auto;
+        display: block;
+      }
+      
+      .mobile-option-3 .main-nav {
+        top: auto;
+        bottom: 24px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+      }
+      
+      .mobile-option-3 .hero {
+        margin-top: 0;
+      }
+    }
+
+    /* Option 4: Collapsing Header */
+    @media (max-width: 768px) {
+      .mobile-option-4 .logo {
+        position: relative;
+        top: auto;
+        left: auto;
+        font-size: 0.9rem;
+        margin: 0;
+        text-align: center;
+      }
+      
+      .mobile-option-4 .main-nav {
+        top: 24px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        align-items: center;
+        padding: 8px 12px;
+      }
+      
+      .mobile-option-4 .nav-item {
+        padding: 4px 12px;
+        font-size: 0.75rem;
+      }
+      
+      .mobile-option-4 .nav-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 24px;
+        padding: 12px 16px 8px 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 50;
+        gap: 4px;
+      }
+    }
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: var(--gap);
       align-items: center;
       margin-bottom: 72px;
+      margin-top: 80px;
     }
     .hero-text h1 {
       font-family: "SF Pro Display", sans-serif;
@@ -91,22 +228,36 @@
     }
   </style>
 </head>
-<body>
+<body class="mobile-option-1">
   <div class="container">
     <!-- Navigation -->
-    <header>
-      <div class="logo">MyPortfolio</div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Work</a>
-        <a href="#contact">Contact</a>
+    <!-- Logo -->
+    <!-- <div class="logo">Spencer Hayes-Laverdière</div> -->
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <a href="#" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Explore</a>
+      <a href="#projects" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Gallery</a>
+      <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Contact</a>
+    </nav>
+    
+    <!-- Option 4: Combined nav container (hidden by default) -->
+    <div class="nav-container" style="display: none;">
+      <div class="logo">Spencer Hayes-Laverdière</div>
+      <nav class="main-nav" style="position: relative; top: auto; left: auto; right: auto; transform: none; background: none; border: none; box-shadow: none; backdrop-filter: none; margin: 0;">
+        <a href="#" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Explore</a>
+        <a href="#projects" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Gallery</a>
+        <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Contact</a>
       </nav>
+    </div>
+
+    <header>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
       <div class="hero-text">
-        <h1>Welcome to My VisionOS Portfolio</h1>
+        <h1>Spencer Hayes-Laverdière</h1>
         <p>Blending cutting-edge glassmorphic UI with sleek, modern design to showcase my work.</p>
         <a href="#projects" class="btn-primary">View My Work</a>
       </div>
@@ -166,5 +317,40 @@
       &copy; 2025 MyPortfolio — Built with ❤️ and glassmorphism
     </footer>
   </div>
+  
+  <script>
+    // Sticky navigation for Option 1
+    if (window.innerWidth <= 768 && document.body.classList.contains('mobile-option-1')) {
+      const nav = document.querySelector('.main-nav');
+      const navTop = nav.offsetTop;
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY >= navTop - 24) {
+          nav.classList.add('sticky');
+        } else {
+          nav.classList.remove('sticky');
+        }
+      });
+    }
+    
+    // Show/hide appropriate elements for Option 4
+    function updateNavForOption4() {
+      const isOption4 = document.body.classList.contains('mobile-option-4');
+      const isMobile = window.innerWidth <= 768;
+      
+      if (isOption4 && isMobile) {
+        document.querySelector('.logo').style.display = 'none';
+        document.querySelector('.main-nav').style.display = 'none';
+        document.querySelector('.nav-container').style.display = 'flex';
+      } else {
+        document.querySelector('.logo').style.display = 'block';
+        document.querySelector('.main-nav').style.display = 'flex';
+        document.querySelector('.nav-container').style.display = 'none';
+      }
+    }
+    
+    window.addEventListener('resize', updateNavForOption4);
+    updateNavForOption4();
+  </script>
 </body>
 </html>
