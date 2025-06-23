@@ -118,74 +118,6 @@
       padding: 8px 20px !important;
     }
 
-    /* Option 3: Bottom Navigation */
-    @media (max-width: 768px) {
-      .mobile-option-3 .logo {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        text-align: center;
-        margin: 24px auto;
-        display: block;
-      }
-      
-      .mobile-option-3 .main-nav {
-        top: auto;
-        bottom: 24px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-      }
-      
-      .mobile-option-3 .hero {
-        margin-top: 0;
-      }
-    }
-
-    /* Option 4: Collapsing Header */
-    @media (max-width: 768px) {
-      .mobile-option-4 .logo {
-        position: relative;
-        top: auto;
-        left: auto;
-        font-size: 0.9rem;
-        margin: 0;
-        text-align: center;
-      }
-      
-      .mobile-option-4 .main-nav {
-        top: 24px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
-        align-items: center;
-        padding: 8px 12px;
-      }
-      
-      .mobile-option-4 .nav-item {
-        padding: 4px 12px;
-        font-size: 0.75rem;
-      }
-      
-      .mobile-option-4 .nav-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 24px;
-        padding: 12px 16px 8px 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        position: fixed;
-        top: 24px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 50;
-        gap: 4px;
-      }
-    }
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -217,83 +149,151 @@
     }
     .project h3 { font-size:1.25rem; margin-bottom:8px; }
     
-    /* Experience Section Styles */
+    /* Interactive Timeline Styles */
     .experience {
       margin: 72px 0;
+      position: relative;
     }
     
-    .experience-timeline {
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap);
+    .timeline-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 0;
     }
     
-    .experience-item {
-      display: grid;
-      grid-template-columns: 80px 1fr;
-      gap: var(--gap);
-      align-items: start;
+    /* Central timeline line */
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--clr-accent), rgba(37, 198, 174, 0.3));
+      transform: translateX(-50%);
+      z-index: 1;
     }
     
-    .experience-icon {
-      width: 60px;
-      height: 60px;
-      background: var(--clr-glass);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--clr-glass-border);
-      border-radius: 50%;
+    .timeline-item {
+      position: relative;
+      margin-bottom: 60px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: var(--clr-accent);
-      margin-top: 4px;
     }
     
-    .experience-content {
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    
+    /* Timeline nodes */
+    .timeline-node {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scale(0.5);
+      width: 50px;
+      height: 50px;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 3px solid var(--clr-accent);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--clr-accent);
+      text-align: center;
+      line-height: 1;
+      opacity: 0;
+    }
+    
+    .timeline-node.visible {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      background: var(--clr-accent);
+      color: white;
+      box-shadow: 0 0 20px rgba(37, 198, 174, 0.4);
+    }
+    
+    .timeline-node:hover {
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 0 25px rgba(37, 198, 174, 0.6);
+    }
+    
+    .timeline-year {
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+    
+    /* Timeline cards */
+    .timeline-content {
+      width: 45%;
       background: var(--clr-glass);
       backdrop-filter: blur(16px);
       border: 1px solid var(--clr-glass-border);
       border-radius: var(--radius);
       padding: var(--gap);
-      transition: transform 0.2s, box-shadow 0.2s;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
     }
     
-    .experience-content:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    .timeline-content.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     
-    .experience-header {
+    .timeline-content.left {
+      margin-right: auto;
+      transform: translateY(50px) translateX(-30px);
+    }
+    
+    .timeline-content.left.visible {
+      transform: translateY(0) translateX(0);
+    }
+    
+    .timeline-content.right {
+      margin-left: auto;
+      transform: translateY(50px) translateX(30px);
+    }
+    
+    .timeline-content.right.visible {
+      transform: translateY(0) translateX(0);
+    }
+    
+    .timeline-header {
       margin-bottom: 12px;
     }
     
-    .experience-header h3 {
+    .timeline-header h3 {
       font-size: 1.3rem;
       margin-bottom: 4px;
       color: var(--clr-text);
     }
     
-    .experience-meta {
+    .timeline-meta {
       font-size: 0.9rem;
       color: #666;
       font-style: italic;
     }
     
-    .experience-achievements {
+    .timeline-achievements {
       list-style: none;
       margin-top: 16px;
     }
     
-    .experience-achievements li {
+    .timeline-achievements li {
       position: relative;
       padding-left: 20px;
       margin-bottom: 8px;
       line-height: 1.5;
     }
     
-    .experience-achievements li:before {
+    .timeline-achievements li:before {
       content: '→';
       position: absolute;
       left: 0;
@@ -301,15 +301,41 @@
       font-weight: bold;
     }
     
+    /* Mobile responsive */
     @media (max-width: 768px) {
-      .experience-item {
-        grid-template-columns: 1fr;
-        gap: 12px;
+      .timeline-line {
+        left: 30px;
       }
       
-      .experience-icon {
-        justify-self: center;
-        margin-bottom: 8px;
+      .timeline-item {
+        flex-direction: row !important;
+        padding-left: 70px;
+      }
+      
+      .timeline-item:nth-child(even) {
+        flex-direction: row !important;
+      }
+      
+      .timeline-node {
+        left: 30px;
+      }
+      
+      .timeline-content {
+        width: 100%;
+        margin: 0 !important;
+      }
+      
+      .timeline-content.left {
+        transform: translateY(50px);
+      }
+      
+      .timeline-content.right {
+        transform: translateY(50px);
+      }
+      
+      .timeline-content.left.visible,
+      .timeline-content.right.visible {
+        transform: translateY(0);
       }
     }
     footer {
@@ -336,16 +362,6 @@
       <a href="#experience" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Experience</a>
       <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Contact</a>
     </nav>
-    
-    <!-- Option 4: Combined nav container (hidden by default) -->
-    <div class="nav-container" style="display: none;">
-      <div class="logo">Spencer Hayes-Laverdière</div>
-      <nav class="main-nav" style="position: relative; top: auto; left: auto; right: auto; transform: none; background: none; border: none; box-shadow: none; backdrop-filter: none; margin: 0;">
-        <a href="#" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Explore</a>
-        <a href="#experience" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Experience</a>
-        <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; text-decoration: none;">Contact</a>
-      </nav>
-    </div>
 
     <header>
     </header>
@@ -366,15 +382,20 @@
     <!-- Experience -->
     <section id="experience" class="experience">
       <h2>Professional Experience</h2>
-      <div class="experience-timeline">
-        <div class="experience-item">
-          <div class="experience-icon">CM</div>
-          <div class="experience-content">
-            <div class="experience-header">
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        
+        <div class="timeline-item">
+          <div class="timeline-node" data-target="crossing-minds">
+            <span>CM</span>
+            <div class="timeline-year">2023</div>
+          </div>
+          <div class="timeline-content right" id="crossing-minds">
+            <div class="timeline-header">
               <h3><a href="https://crossingminds.com/" target="_blank">Crossing Minds</a></h3>
-              <div class="experience-meta">Data/Machine Learning Engineer • 2023 - Current • San Francisco, CA (Remote)</div>
+              <div class="timeline-meta">Data/Machine Learning Engineer • 2023 - Current • San Francisco, CA (Remote)</div>
             </div>
-            <ul class="experience-achievements">
+            <ul class="timeline-achievements">
               <li>Designed and deployed a data pipeline and analytics API using Python and Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in billing efficiency</li>
               <li>Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by over 50%</li>
               <li>Added schema checks to data ingestion API to increase HTTP 202 response completion rate by 17%</li>
@@ -382,14 +403,17 @@
           </div>
         </div>
         
-        <div class="experience-item">
-          <div class="experience-icon">LV</div>
-          <div class="experience-content">
-            <div class="experience-header">
+        <div class="timeline-item">
+          <div class="timeline-node" data-target="leav">
+            <span>LV</span>
+            <div class="timeline-year">2021</div>
+          </div>
+          <div class="timeline-content left" id="leav">
+            <div class="timeline-header">
               <h3><a href="https://www.leav.co/" target="_blank">Leav</a></h3>
-              <div class="experience-meta">Data Scientist & Manager • 2021 - 2023 • Montreal, QC</div>
+              <div class="timeline-meta">Data Scientist & Manager • 2021 - 2023 • Montreal, QC</div>
             </div>
-            <ul class="experience-achievements">
+            <ul class="timeline-achievements">
               <li>Led and managed the data department, overseeing all data-related projects and mentoring an intern</li>
               <li>Developed and deployed a real-time recommendation algorithm using mlxtend and Flask, serving hundreds of requests per second</li>
               <li>Designed robust end-to-end ELT data pipeline with redundancy that maintained zero data loss during Cloud platform outages</li>
@@ -397,14 +421,17 @@
           </div>
         </div>
         
-        <div class="experience-item">
-          <div class="experience-icon">SF</div>
-          <div class="experience-content">
-            <div class="experience-header">
+        <div class="timeline-item">
+          <div class="timeline-node" data-target="squarefeet">
+            <span>SF</span>
+            <div class="timeline-year">2020</div>
+          </div>
+          <div class="timeline-content right" id="squarefeet">
+            <div class="timeline-header">
               <h3><a href="https://www.squarefeet.ai" target="_blank">SquareFeet.ai</a></h3>
-              <div class="experience-meta">Machine Learning Engineer • 2020 - 2021 • Montreal, QC</div>
+              <div class="timeline-meta">Machine Learning Engineer • 2020 - 2021 • Montreal, QC</div>
             </div>
-            <ul class="experience-achievements">
+            <ul class="timeline-achievements">
               <li>Spearheaded development of pricing algorithms with mixed data inputs, contributing to successful company acquisition</li>
               <li>Created property search feature handling 5M+ properties with hundreds of features</li>
               <li>Integrated explainable AI tools like SHAP for model insights and bias tracking</li>
@@ -480,24 +507,37 @@
       });
     }
     
-    // Show/hide appropriate elements for Option 4
-    function updateNavForOption4() {
-      const isOption4 = document.body.classList.contains('mobile-option-4');
-      const isMobile = window.innerWidth <= 768;
-      
-      if (isOption4 && isMobile) {
-        document.querySelector('.logo').style.display = 'none';
-        document.querySelector('.main-nav').style.display = 'none';
-        document.querySelector('.nav-container').style.display = 'flex';
-      } else {
-        document.querySelector('.logo').style.display = 'block';
-        document.querySelector('.main-nav').style.display = 'flex';
-        document.querySelector('.nav-container').style.display = 'none';
-      }
-    }
     
-    window.addEventListener('resize', updateNavForOption4);
-    updateNavForOption4();
+    // Scroll-triggered Timeline Animation
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: '0px 0px -10% 0px'
+    };
+    
+    const timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const node = entry.target.querySelector('.timeline-node');
+          const content = entry.target.querySelector('.timeline-content');
+          
+          // Add visible class with slight delay for staggered effect
+          setTimeout(() => {
+            node.classList.add('visible');
+          }, 100);
+          
+          setTimeout(() => {
+            content.classList.add('visible');
+          }, 300);
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all timeline items
+    timelineItems.forEach(item => {
+      timelineObserver.observe(item);
+    });
   </script>
 </body>
 </html>
