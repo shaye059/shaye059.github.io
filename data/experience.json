@@ -1,0 +1,50 @@
+[
+  {
+    "id": "crossing-minds",
+    "company": "Crossing Minds",
+    "url": "https://crossingminds.com/",
+    "role": "Data/Machine Learning Engineer",
+    "period": "2023 - Current",
+    "location": "San Francisco, CA (Remote)",
+    "year": "2023",
+    "initials": "CM",
+    "side": "right",
+    "achievements": [
+      "Designed and deployed a data pipeline and analytics API using Python and Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in billing efficiency",
+      "Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by over 50%",
+      "Added schema checks to data ingestion API to increase HTTP 202 response completion rate by 17%"
+    ]
+  },
+  {
+    "id": "leav",
+    "company": "Leav",
+    "url": "https://www.leav.co/",
+    "role": "Data Scientist & Manager",
+    "period": "2021 - 2023",
+    "location": "Montreal, QC",
+    "year": "2021",
+    "initials": "LV",
+    "side": "left",
+    "achievements": [
+      "Led and managed the data department, overseeing all data-related projects and mentoring an intern",
+      "Developed and deployed a real-time recommendation algorithm using mlxtend and Flask, serving hundreds of requests per second",
+      "Designed robust end-to-end ELT data pipeline with redundancy that maintained zero data loss during Cloud platform outages"
+    ]
+  },
+  {
+    "id": "squarefeet",
+    "company": "SquareFeet.ai",
+    "url": "https://www.squarefeet.ai",
+    "role": "Machine Learning Engineer",
+    "period": "2020 - 2021",
+    "location": "Montreal, QC",
+    "year": "2020",
+    "initials": "SF",
+    "side": "right",
+    "achievements": [
+      "Spearheaded development of pricing algorithms with mixed data inputs, contributing to successful company acquisition",
+      "Created property search feature handling 5M+ properties with hundreds of features",
+      "Integrated explainable AI tools like SHAP for model insights and bias tracking"
+    ]
+  }
+]

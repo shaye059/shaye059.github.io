@@ -384,59 +384,8 @@
       <h2>Professional Experience</h2>
       <div class="timeline-container">
         <div class="timeline-line"></div>
-        
-        <div class="timeline-item">
-          <div class="timeline-node" data-target="crossing-minds">
-            <span>CM</span>
-            <div class="timeline-year">2023</div>
-          </div>
-          <div class="timeline-content right" id="crossing-minds">
-            <div class="timeline-header">
-              <h3><a href="https://crossingminds.com/" target="_blank">Crossing Minds</a></h3>
-              <div class="timeline-meta">Data/Machine Learning Engineer • 2023 - Current • San Francisco, CA (Remote)</div>
-            </div>
-            <ul class="timeline-achievements">
-              <li>Designed and deployed a data pipeline and analytics API using Python and Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in billing efficiency</li>
-              <li>Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by over 50%</li>
-              <li>Added schema checks to data ingestion API to increase HTTP 202 response completion rate by 17%</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-node" data-target="leav">
-            <span>LV</span>
-            <div class="timeline-year">2021</div>
-          </div>
-          <div class="timeline-content left" id="leav">
-            <div class="timeline-header">
-              <h3><a href="https://www.leav.co/" target="_blank">Leav</a></h3>
-              <div class="timeline-meta">Data Scientist & Manager • 2021 - 2023 • Montreal, QC</div>
-            </div>
-            <ul class="timeline-achievements">
-              <li>Led and managed the data department, overseeing all data-related projects and mentoring an intern</li>
-              <li>Developed and deployed a real-time recommendation algorithm using mlxtend and Flask, serving hundreds of requests per second</li>
-              <li>Designed robust end-to-end ELT data pipeline with redundancy that maintained zero data loss during Cloud platform outages</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="timeline-item">
-          <div class="timeline-node" data-target="squarefeet">
-            <span>SF</span>
-            <div class="timeline-year">2020</div>
-          </div>
-          <div class="timeline-content right" id="squarefeet">
-            <div class="timeline-header">
-              <h3><a href="https://www.squarefeet.ai" target="_blank">SquareFeet.ai</a></h3>
-              <div class="timeline-meta">Machine Learning Engineer • 2020 - 2021 • Montreal, QC</div>
-            </div>
-            <ul class="timeline-achievements">
-              <li>Spearheaded development of pricing algorithms with mixed data inputs, contributing to successful company acquisition</li>
-              <li>Created property search feature handling 5M+ properties with hundreds of features</li>
-              <li>Integrated explainable AI tools like SHAP for model insights and bias tracking</li>
-            </ul>
-          </div>
+        <div id="timeline-items">
+          <!-- Timeline items will be generated from JSON -->
         </div>
       </div>
     </section>
@@ -508,36 +457,79 @@
     }
     
     
-    // Scroll-triggered Timeline Animation
-    const timelineItems = document.querySelectorAll('.timeline-item');
+    // Load and render experience data
+    async function loadExperience() {
+      try {
+        const response = await fetch('./data/experience.json');
+        const experiences = await response.json();
+        renderTimeline(experiences);
+      } catch (error) {
+        console.error('Error loading experience data:', error);
+      }
+    }
     
-    const observerOptions = {
-      threshold: 0.3,
-      rootMargin: '0px 0px -10% 0px'
-    };
-    
-    const timelineObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const node = entry.target.querySelector('.timeline-node');
-          const content = entry.target.querySelector('.timeline-content');
-          
-          // Add visible class with slight delay for staggered effect
-          setTimeout(() => {
-            node.classList.add('visible');
-          }, 100);
-          
-          setTimeout(() => {
-            content.classList.add('visible');
-          }, 300);
-        }
+    function renderTimeline(experiences) {
+      const container = document.getElementById('timeline-items');
+      
+      experiences.forEach(exp => {
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        
+        timelineItem.innerHTML = `
+          <div class="timeline-node" data-target="${exp.id}">
+            <span>${exp.initials}</span>
+            <div class="timeline-year">${exp.year}</div>
+          </div>
+          <div class="timeline-content ${exp.side}" id="${exp.id}">
+            <div class="timeline-header">
+              <h3><a href="${exp.url}" target="_blank">${exp.company}</a></h3>
+              <div class="timeline-meta">${exp.role} • ${exp.period} • ${exp.location}</div>
+            </div>
+            <ul class="timeline-achievements">
+              ${exp.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        container.appendChild(timelineItem);
       });
-    }, observerOptions);
+      
+      // Initialize scroll animations after rendering
+      initializeScrollAnimations();
+    }
     
-    // Observe all timeline items
-    timelineItems.forEach(item => {
-      timelineObserver.observe(item);
-    });
+    function initializeScrollAnimations() {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -10% 0px'
+      };
+      
+      const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const node = entry.target.querySelector('.timeline-node');
+            const content = entry.target.querySelector('.timeline-content');
+            
+            setTimeout(() => {
+              node.classList.add('visible');
+            }, 100);
+            
+            setTimeout(() => {
+              content.classList.add('visible');
+            }, 300);
+          }
+        });
+      }, observerOptions);
+      
+      timelineItems.forEach(item => {
+        timelineObserver.observe(item);
+      });
+    }
+    
+    // Load experience data when page loads
+    loadExperience();
   </script>
 </body>
 </html>
