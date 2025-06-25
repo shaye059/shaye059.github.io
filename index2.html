@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>My VisionOS-Inspired Portfolio</title>
+  <title>Spencer Hayes-Laverdière</title>
+  
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- reCAPTCHA v3 -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
   <style>
     :root {
       --clr-bg: #EAF5FF;
@@ -37,6 +42,12 @@
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    /* Remove hover animation from contact section */
+    #contact .card:hover {
+      transform: none;
+      box-shadow: var(--shadow-soft);
     }
     .container {
       max-width: 1200px;
@@ -370,7 +381,7 @@
     <section class="hero">
       <div class="hero-text">
         <h1>Spencer Hayes-Laverdière</h1>
-        <p>Blending cutting-edge glassmorphic UI with sleek, modern design to showcase my work.</p>
+        <p>Generative AI (images & text), computer vision, and search & recommendation systems.</p>
         <a href="#experience" class="btn-primary">View My Experience</a>
       </div>
       <div class="hero-image card">
@@ -417,27 +428,37 @@
       <div class="card">
         <h2>Get In Touch</h2>
         <p>Interested in working together? Send me a message:</p>
-        <form>
+        <form id="contact-form">
+          <div id="form-status" style="margin-bottom: 16px; padding: 12px; border-radius: var(--radius); display: none;"></div>
+          
           <label>
             Name<br>
-            <input type="text" placeholder="Your Name" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+            <input type="text" name="from_name" placeholder="Your Name" required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
           </label>
           <label>
             Email<br>
-            <input type="email" placeholder="you@example.com" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+            <input type="email" name="from_email" placeholder="you@example.com" required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
           </label>
           <label>
             Message<br>
-            <textarea rows="4" style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;"></textarea>
+            <textarea rows="4" name="message" placeholder="Your message..." required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;"></textarea>
           </label>
-          <button type="submit" class="btn-primary">Send Message</button>
+          
+          
+          <button type="button" id="submit-btn" class="btn-primary g-recaptcha" 
+                  data-sitekey="6LdFRG0rAAAAAKIXj2nbNwxNgrjK4XIIpTOdmUyh" 
+                  data-callback="onSubmit" 
+                  data-action="submit">
+            <span id="submit-text">Send Message</span>
+            <span id="loading-text" style="display: none;">Sending...</span>
+          </button>
         </form>
       </div>
     </section>
 
     <!-- Footer -->
     <footer>
-      &copy; 2025 MyPortfolio — Built with ❤️ and glassmorphism
+      &copy; 2025 Spencer Hayes-Laverdière
     </footer>
   </div>
   
@@ -530,6 +551,71 @@
     
     // Load experience data when page loads
     loadExperience();
+    
+    // EmailJS Configuration
+    (function() {
+      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
+    })();
+    
+    // reCAPTCHA callback function
+    function onSubmit(token) {
+      // Show loading state
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const loadingText = document.getElementById('loading-text');
+      
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      loadingText.style.display = 'inline';
+      
+      // Get form data
+      const form = document.getElementById('contact-form');
+      
+      // Send email via EmailJS
+      emailjs.sendForm("service_65vwgkg", "contact-us", form)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
+          form.reset();
+        }, function(error) {
+          console.log('FAILED...', error);
+          showFormStatus('Failed to send message. Please try again or contact me directly.', 'error');
+        })
+        .finally(function() {
+          // Reset button state
+          submitBtn.disabled = false;
+          submitText.style.display = 'inline';
+          loadingText.style.display = 'none';
+          // Reset reCAPTCHA
+          grecaptcha.reset();
+        });
+    }
+    
+    // Prevent form submission via Enter key (let reCAPTCHA handle it)
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+    });
+    
+    function showFormStatus(message, type) {
+      const statusDiv = document.getElementById('form-status');
+      statusDiv.textContent = message;
+      statusDiv.style.display = 'block';
+      
+      if (type === 'success') {
+        statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+        statusDiv.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+        statusDiv.style.color = '#059669';
+      } else {
+        statusDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        statusDiv.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+        statusDiv.style.color = '#dc2626';
+      }
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 5000);
+    }
   </script>
 </body>
 </html>
