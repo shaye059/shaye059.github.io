@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blog Posts - Magazine Stack Preview</title>
+  <title>Blog Posts - Card Pile Preview</title>
   
   <style>
     :root {
@@ -40,98 +40,136 @@
       color: var(--clr-text);
     }
     
-    .blog-section {
+    /* Card Pile Container */
+    .blog-pile-container {
       position: relative;
       margin: 0 auto;
-      max-width: 800px;
+      max-width: 600px;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
-    /* Magazine Stack Layout */
-    .blog-stack {
-      display: flex;
-      flex-direction: column;
-      gap: -20px; /* Negative gap to create overlap */
+    .blog-pile {
       position: relative;
-      padding: 40px 0;
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
     }
     
     .blog-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: var(--clr-glass);
       backdrop-filter: blur(16px);
       border: 1px solid var(--clr-glass-border);
       border-radius: var(--radius);
       padding: var(--gap);
-      margin-bottom: 16px;
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0;
-      transform: translateY(50px) scale(0.95);
       box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
       overflow: hidden;
     }
     
-    /* Staggered positioning and rotation for desktop */
+    /* Card stacking - each card slightly offset and behind the previous */
     .blog-card:nth-child(1) {
-      transform: translateY(50px) rotate(-1.5deg) translateX(-15px) scale(0.95);
-      z-index: 6;
+      z-index: 5;
+      transform: translateY(0px) scale(1) rotate(0deg);
     }
     
     .blog-card:nth-child(2) {
-      transform: translateY(50px) rotate(1deg) translateX(10px) scale(0.95);
-      z-index: 5;
+      z-index: 4;
+      transform: translateY(8px) scale(0.98) rotate(-0.5deg);
+      opacity: 0.9;
     }
     
     .blog-card:nth-child(3) {
-      transform: translateY(50px) rotate(-0.8deg) translateX(-8px) scale(0.95);
-      z-index: 4;
+      z-index: 3;
+      transform: translateY(16px) scale(0.96) rotate(0.8deg);
+      opacity: 0.8;
     }
     
     .blog-card:nth-child(4) {
-      transform: translateY(50px) rotate(1.2deg) translateX(12px) scale(0.95);
-      z-index: 3;
+      z-index: 2;
+      transform: translateY(24px) scale(0.94) rotate(-0.3deg);
+      opacity: 0.7;
     }
     
     .blog-card:nth-child(5) {
-      transform: translateY(50px) rotate(-0.5deg) translateX(-5px) scale(0.95);
-      z-index: 2;
+      z-index: 1;
+      transform: translateY(32px) scale(0.92) rotate(0.6deg);
+      opacity: 0.6;
     }
     
-    /* Visible state */
-    .blog-card.visible {
-      opacity: 1;
+    /* Active card states */
+    .blog-card.active {
+      z-index: 10;
+      transform: translateY(0px) scale(1) rotate(0deg) !important;
+      opacity: 1 !important;
     }
     
-    .blog-card.visible:nth-child(1) {
-      transform: rotate(-1.5deg) translateX(-15px) scale(1);
+    .blog-card.next {
+      z-index: 4;
+      transform: translateY(8px) scale(0.98) rotate(-0.5deg) !important;
+      opacity: 0.9 !important;
     }
     
-    .blog-card.visible:nth-child(2) {
-      transform: rotate(1deg) translateX(10px) scale(1);
+    .blog-card.hidden {
+      z-index: 0;
+      transform: translateY(40px) scale(0.9) rotate(1deg) !important;
+      opacity: 0 !important;
     }
     
-    .blog-card.visible:nth-child(3) {
-      transform: rotate(-0.8deg) translateX(-8px) scale(1);
+    /* Swiping states */
+    .blog-card.swiping-left {
+      transform: translateX(-100%) rotate(-15deg) scale(0.8) !important;
+      opacity: 0 !important;
     }
     
-    .blog-card.visible:nth-child(4) {
-      transform: rotate(1.2deg) translateX(12px) scale(1);
+    .blog-card.swiping-right {
+      transform: translateX(100%) rotate(15deg) scale(0.8) !important;
+      opacity: 0 !important;
     }
     
-    .blog-card.visible:nth-child(5) {
-      transform: rotate(-0.5deg) translateX(-5px) scale(1);
+    /* Corner peel hint animation */
+    .blog-card.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, transparent 45%, rgba(255,255,255,0.1) 50%, transparent 55%);
+      border-radius: 0 var(--radius) 0 0;
+      opacity: 0;
+      animation: cornerPeek 3s ease-in-out infinite;
+      pointer-events: none;
     }
     
-    /* Hover effects */
-    .blog-card:hover {
-      transform: rotate(0deg) translateX(0) translateY(-8px) scale(1.02) !important;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      z-index: 10 !important;
+    @keyframes cornerPeek {
+      0%, 90%, 100% { opacity: 0; transform: scale(1); }
+      5%, 15% { opacity: 1; transform: scale(1.1); }
     }
     
-    /* Blog card content */
+    /* Gentle bounce hint for mobile */
+    .blog-card.active {
+      animation: gentleBounce 4s ease-in-out infinite;
+    }
+    
+    @keyframes gentleBounce {
+      0%, 95%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+      2.5%, 7.5% { transform: translateY(-2px) scale(1) rotate(-0.5deg); }
+    }
+    
+    /* Card content */
     .blog-image {
       width: 100%;
-      height: 200px;
+      height: 160px;
       object-fit: cover;
       border-radius: calc(var(--radius) - 4px);
       margin-bottom: 16px;
@@ -162,7 +200,7 @@
     }
     
     .blog-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 700;
       margin-bottom: 8px;
       color: var(--clr-text);
@@ -173,6 +211,7 @@
       color: #555;
       margin-bottom: 16px;
       line-height: 1.5;
+      font-size: 0.95rem;
     }
     
     .blog-link {
@@ -198,6 +237,59 @@
       transform: translateX(2px);
     }
     
+    /* Navigation Controls */
+    .pile-controls {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .pile-nav-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      color: var(--clr-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .pile-nav-btn:hover {
+      background: var(--clr-accent);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .pile-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: scale(1);
+      background: var(--clr-glass);
+      color: var(--clr-text);
+    }
+    
+    .pile-counter {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--clr-text);
+    }
+    
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .container {
@@ -209,78 +301,35 @@
         margin-bottom: 32px;
       }
       
-      .blog-stack {
-        padding: 20px 0;
-        gap: 0;
+      .blog-pile-container {
+        height: 450px;
+        max-width: 100%;
       }
       
       .blog-card {
-        margin-bottom: 20px;
-      }
-      
-      /* Simplified mobile transforms */
-      .blog-card:nth-child(1),
-      .blog-card:nth-child(2),
-      .blog-card:nth-child(3),
-      .blog-card:nth-child(4),
-      .blog-card:nth-child(5) {
-        transform: translateY(30px) rotate(-0.3deg) scale(0.98);
-      }
-      
-      .blog-card:nth-child(even) {
-        transform: translateY(30px) rotate(0.3deg) scale(0.98);
-      }
-      
-      .blog-card.visible:nth-child(1),
-      .blog-card.visible:nth-child(2),
-      .blog-card.visible:nth-child(3),
-      .blog-card.visible:nth-child(4),
-      .blog-card.visible:nth-child(5) {
-        transform: rotate(-0.3deg) scale(1);
-      }
-      
-      .blog-card.visible:nth-child(even) {
-        transform: rotate(0.3deg) scale(1);
-      }
-      
-      .blog-card:hover {
-        transform: rotate(0deg) translateY(-4px) scale(1.01) !important;
-        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        padding: 20px;
       }
       
       .blog-image {
-        height: 160px;
+        height: 140px;
       }
       
       .blog-title {
         font-size: 1.2rem;
       }
-    }
-    
-    /* Very small screens */
-    @media (max-width: 480px) {
-      .blog-card:nth-child(1),
-      .blog-card:nth-child(2),
-      .blog-card:nth-child(3),
-      .blog-card:nth-child(4),
-      .blog-card:nth-child(5) {
-        transform: translateY(20px) scale(0.99);
+      
+      .blog-excerpt {
+        font-size: 0.9rem;
       }
       
-      .blog-card:nth-child(even) {
-        transform: translateY(20px) scale(0.99);
+      .pile-controls {
+        bottom: -50px;
       }
       
-      .blog-card.visible:nth-child(1),
-      .blog-card.visible:nth-child(2),
-      .blog-card.visible:nth-child(3),
-      .blog-card.visible:nth-child(4),
-      .blog-card.visible:nth-child(5) {
-        transform: scale(1);
-      }
-      
-      .blog-card.visible:nth-child(even) {
-        transform: scale(1);
+      .pile-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
       }
     }
     
@@ -300,26 +349,37 @@
     
     .demo-note {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 80px;
       padding: 16px;
       background: var(--clr-glass);
       border-radius: var(--radius);
       font-style: italic;
       color: #666;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .swipe-hint {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #666;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="demo-controls">
-      📱 Resize window to see mobile layout
+      📱 Swipe cards or use arrows
     </div>
     
     <h1>Recent Blog Posts</h1>
     
-    <section class="blog-section">
-      <div class="blog-stack">
-        <article class="blog-card">
+    <section class="blog-pile-container">
+      <div class="blog-pile" id="blogPile">
+        <article class="blog-card active" data-index="0">
           <img src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg" alt="AI and Machine Learning" class="blog-image">
           <div class="blog-meta">
             <span class="blog-date">Mar 15</span>
@@ -330,7 +390,7 @@
           <a href="#" class="blog-link">Read Article</a>
         </article>
         
-        <article class="blog-card">
+        <article class="blog-card next" data-index="1">
           <img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg" alt="Computer Vision" class="blog-image">
           <div class="blog-meta">
             <span class="blog-date">Mar 8</span>
@@ -341,7 +401,7 @@
           <a href="#" class="blog-link">Read Article</a>
         </article>
         
-        <article class="blog-card">
+        <article class="blog-card" data-index="2">
           <img src="https://images.pexels.com/photos/3184311/pexels-photo-3184311.jpeg" alt="Search Systems" class="blog-image">
           <div class="blog-meta">
             <span class="blog-date">Feb 28</span>
@@ -352,7 +412,7 @@
           <a href="#" class="blog-link">Read Article</a>
         </article>
         
-        <article class="blog-card">
+        <article class="blog-card" data-index="3">
           <img src="https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg" alt="VisionOS Development" class="blog-image">
           <div class="blog-meta">
             <span class="blog-date">Feb 20</span>
@@ -363,7 +423,7 @@
           <a href="#" class="blog-link">Read Article</a>
         </article>
         
-        <article class="blog-card">
+        <article class="blog-card" data-index="4">
           <img src="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg" alt="Data Science" class="blog-image">
           <div class="blog-meta">
             <span class="blog-date">Feb 12</span>
@@ -374,48 +434,206 @@
           <a href="#" class="blog-link">Read Article</a>
         </article>
       </div>
+      
+      <div class="pile-controls">
+        <button class="pile-nav-btn" id="prevBtn">‹</button>
+        <div class="pile-counter">
+          <span id="currentCard">1</span> / <span id="totalCards">5</span>
+        </div>
+        <button class="pile-nav-btn" id="nextBtn">›</button>
+      </div>
     </section>
     
+    <div class="swipe-hint">
+      💡 Swipe left/right on cards or use keyboard arrows
+    </div>
+    
     <div class="demo-note">
-      <strong>Demo Features:</strong><br>
-      • Hover over cards to see lift effect<br>
-      • Resize window to see mobile adaptation<br>
-      • Cards animate in on scroll<br>
-      • Magazine-style stacked layout with rotation
+      <strong>Card Pile Features:</strong><br>
+      • Swipe gestures (mobile) and arrow navigation (desktop)<br>
+      • Subtle corner peel and bounce animations hint at interactivity<br>
+      • Smooth spring-based transitions between cards<br>
+      • Space-efficient design showing 5 blog posts in one compact area<br>
+      • Keyboard navigation support (← → keys)
     </div>
   </div>
   
   <script>
-    // Animate cards in on scroll
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -10% 0px'
-    };
-    
-    const cardObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, index * 150); // Stagger the animations
-        }
-      });
-    }, observerOptions);
-    
-    // Observe all blog cards
-    document.querySelectorAll('.blog-card').forEach(card => {
-      cardObserver.observe(card);
-    });
-    
-    // Trigger animations on load for demo purposes
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.querySelectorAll('.blog-card').forEach((card, index) => {
-          setTimeout(() => {
-            card.classList.add('visible');
-          }, index * 200);
+    class BlogCardPile {
+      constructor() {
+        this.currentIndex = 0;
+        this.cards = document.querySelectorAll('.blog-card');
+        this.totalCards = this.cards.length;
+        this.pile = document.getElementById('blogPile');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.currentCardSpan = document.getElementById('currentCard');
+        this.totalCardsSpan = document.getElementById('totalCards');
+        
+        this.startX = 0;
+        this.currentX = 0;
+        this.isDragging = false;
+        
+        this.init();
+      }
+      
+      init() {
+        this.updateDisplay();
+        this.attachEventListeners();
+        this.totalCardsSpan.textContent = this.totalCards;
+      }
+      
+      attachEventListeners() {
+        // Navigation buttons
+        this.prevBtn.addEventListener('click', () => this.previousCard());
+        this.nextBtn.addEventListener('click', () => this.nextCard());
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') this.previousCard();
+          if (e.key === 'ArrowRight') this.nextCard();
         });
-      }, 500);
+        
+        // Touch/swipe events
+        this.pile.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.pile.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: true });
+        this.pile.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        
+        // Mouse events for desktop dragging
+        this.pile.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        this.pile.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        this.pile.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+        this.pile.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
+        
+        // Prevent context menu on long press
+        this.pile.addEventListener('contextmenu', (e) => e.preventDefault());
+      }
+      
+      handleTouchStart(e) {
+        this.startX = e.touches[0].clientX;
+        this.isDragging = true;
+      }
+      
+      handleTouchMove(e) {
+        if (!this.isDragging) return;
+        this.currentX = e.touches[0].clientX;
+        const diffX = this.currentX - this.startX;
+        
+        // Apply subtle transform feedback
+        if (Math.abs(diffX) > 10) {
+          const activeCard = this.cards[this.currentIndex];
+          const rotation = Math.max(-15, Math.min(15, diffX * 0.1));
+          const opacity = Math.max(0.5, 1 - Math.abs(diffX) * 0.002);
+          activeCard.style.transform = `translateX(${diffX * 0.3}px) rotate(${rotation}deg) scale(${opacity})`;
+        }
+      }
+      
+      handleTouchEnd(e) {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        
+        const diffX = this.currentX - this.startX;
+        const activeCard = this.cards[this.currentIndex];
+        
+        // Reset transform
+        activeCard.style.transform = '';
+        
+        // Determine swipe direction
+        if (Math.abs(diffX) > 50) {
+          if (diffX > 0) {
+            this.previousCard();
+          } else {
+            this.nextCard();
+          }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+      }
+      
+      handleMouseDown(e) {
+        this.startX = e.clientX;
+        this.isDragging = true;
+        this.pile.style.cursor = 'grabbing';
+      }
+      
+      handleMouseMove(e) {
+        if (!this.isDragging) return;
+        this.currentX = e.clientX;
+        const diffX = this.currentX - this.startX;
+        
+        // Apply subtle transform feedback
+        if (Math.abs(diffX) > 10) {
+          const activeCard = this.cards[this.currentIndex];
+          const rotation = Math.max(-10, Math.min(10, diffX * 0.05));
+          const opacity = Math.max(0.7, 1 - Math.abs(diffX) * 0.001);
+          activeCard.style.transform = `translateX(${diffX * 0.2}px) rotate(${rotation}deg) scale(${opacity})`;
+        }
+      }
+      
+      handleMouseUp(e) {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        this.pile.style.cursor = '';
+        
+        const diffX = this.currentX - this.startX;
+        const activeCard = this.cards[this.currentIndex];
+        
+        // Reset transform
+        activeCard.style.transform = '';
+        
+        // Determine swipe direction
+        if (Math.abs(diffX) > 80) {
+          if (diffX > 0) {
+            this.previousCard();
+          } else {
+            this.nextCard();
+          }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+      }
+      
+      nextCard() {
+        if (this.currentIndex < this.totalCards - 1) {
+          this.currentIndex++;
+          this.updateDisplay();
+        }
+      }
+      
+      previousCard() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.updateDisplay();
+        }
+      }
+      
+      updateDisplay() {
+        this.cards.forEach((card, index) => {
+          card.classList.remove('active', 'next', 'hidden');
+          
+          if (index === this.currentIndex) {
+            card.classList.add('active');
+          } else if (index === this.currentIndex + 1) {
+            card.classList.add('next');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+        
+        // Update counter
+        this.currentCardSpan.textContent = this.currentIndex + 1;
+        
+        // Update button states
+        this.prevBtn.disabled = this.currentIndex === 0;
+        this.nextBtn.disabled = this.currentIndex === this.totalCards - 1;
+      }
+    }
+    
+    // Initialize the card pile when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new BlogCardPile();
     });
   </script>
 </body>
