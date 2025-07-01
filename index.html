@@ -1,353 +1,1399 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--
 	Taking a little look behind the curtain I see.
-	Yep, this website was also made by me using an
-	awesome theme called Photon by HTML5 UP.
+	Yep, this website was also designed and made
+  by me.
 	-Spencer
 -->
-<html>
+<html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1D23VKTSPL"></script>
-    <script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spencer Hayes-Laverdière</title>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1D23VKTSPL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-			gtag('config', 'G-1D23VKTSPL');
+    gtag('config', 'G-1D23VKTSPL');
+  </script>
+  
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- reCAPTCHA v3 -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <!-- Heroicons for social media -->
+  <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js" type="module"></script>
+  <style>
+    :root {
+      --clr-bg: #EAF5FF;
+      --clr-glass: rgba(255,255,255,0.2);
+      --clr-glass-border: rgba(255,255,255,0.4);
+      --clr-accent: #25C6AE;
+      --clr-text: #333333;
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --gap: 24px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "SF Pro Text", sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height:1.6;
+    }
+    img { max-width:100%; display:block; border-radius: var(--radius); }
+    a { color: var(--clr-accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .card {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      padding: var(--gap);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    /* Remove hover animation from contact section */
+    #contact .card:hover {
+      transform: none;
+      box-shadow: var(--shadow-soft);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+    header {
+      margin-bottom: var(--gap);
+    }
+    .nav-item {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(135, 206, 235, 0.1));
+      color: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+    }
+    
+    .nav-item:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+    
+    /* Desktop Navigation (default) */
+    .main-nav {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      padding: 8px 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 8px;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+    
+    .logo {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
 
+    /* Option 1: Simple Sticky Nav */
+    @media (max-width: 768px) {
+      .mobile-option-1 .hero {
+        margin-top: 80px;
+      }
+    }
+    
+    /* Hide logo completely for Option 1 (desktop and mobile) */
+    .mobile-option-1 .logo {
+      display: none;
+    }
+    
+    /* Center nav on desktop for Option 1 */
+    .mobile-option-1 .main-nav {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      padding: 8px 24px;
+      gap: 12px;
+    }
+    
+    .mobile-option-1 .nav-item {
+      padding: 8px 20px !important;
+    }
+    
+    /* Mobile nav centering and sticky behavior */
+    @media (max-width: 768px) {
+      .mobile-option-1 .main-nav {
+        left: 50vw !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        top: 24px !important;
+        position: fixed !important;
+        z-index: 50 !important;
+        margin: 0 !important;
+        padding: 6px 12px !important;
+        gap: 4px !important;
+      }
+      
+      .mobile-option-1 .nav-item {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
+      }
+    }
 
-    </script>
-    <title>Spencer Hayes-Laverdière</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-    <meta property="og:image" content="https://spencer-hayes.me/Website.PNG">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="assets/css/main.css"/>
-    <noscript>
-        <link rel="stylesheet" href="assets/css/noscript.css"/>
-    </noscript>
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      align-items: center;
+      margin-bottom: 72px;
+      margin-top: 80px;
+    }
+    .hero-text h1 {
+      font-family: "SF Pro Display", sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--clr-accent);
+      color: white;
+      border-radius: var(--radius);
+      padding: 0.75em 1.5em;
+      font-weight: 600;
+      margin-top: 16px;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    
+    /* Hero Social Icons */
+    .hero-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    .hero-social-item {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-social-item:hover {
+      background: var(--clr-text);
+      transform: scale(1.1);
+      box-shadow: 0 0 0 3px rgba(37, 198, 174, 0.3), 0 4px 12px rgba(37, 198, 174, 0.4);
+    }
+    
+    .hero-social-item svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+      fill: currentColor;
+      stroke: none;
+    }
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--gap);
+    }
+    .project h3 { font-size:1.25rem; margin-bottom:8px; }
+    
+    /* Override link styling for project cards */
+    .project.card {
+      color: var(--clr-text);
+      text-decoration: none;
+    }
+    .project.card:hover {
+      color: var(--clr-text);
+      text-decoration: none;
+    }
+    .project.card h3 {
+      color: var(--clr-text);
+    }
+    .project.card p {
+      color: var(--clr-text);
+    }
+    
+    /* Card Pile Blog Layout */
+    .blog-pile-container {
+      position: relative;
+      margin: 0 auto;
+      max-width: 600px;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .blog-pile {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1000px;
+    }
+    
+    .blog-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center center;
+      overflow: hidden;
+    }
+    
+    /* Card stacking - more obvious pile effect */
+    .blog-card:nth-child(1) {
+      z-index: 5;
+      transform: translateY(0px) scale(1) rotate(0deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .blog-card:nth-child(2) {
+      z-index: 4;
+      transform: translateY(12px) scale(0.96) rotate(-1.2deg) translateX(-8px);
+      opacity: 0.85;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
+    }
+    
+    .blog-card:nth-child(3) {
+      z-index: 3;
+      transform: translateY(24px) scale(0.92) rotate(1.8deg) translateX(12px);
+      opacity: 0.7;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+    
+    .blog-card:nth-child(4) {
+      z-index: 2;
+      transform: translateY(36px) scale(0.88) rotate(-1deg) translateX(-6px);
+      opacity: 0.55;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    }
+    
+    .blog-card:nth-child(5) {
+      z-index: 1;
+      transform: translateY(48px) scale(0.84) rotate(1.5deg) translateX(10px);
+      opacity: 0.4;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+    }
+    
+    /* Active card states */
+    .blog-card.active {
+      z-index: 10;
+      opacity: 1 !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+      /* Don't override transform here to allow bounce animation */
+    }
+    
+    .blog-card.next {
+      z-index: 4;
+      transform: translateY(12px) scale(0.96) rotate(-1.2deg) translateX(-8px) !important;
+      opacity: 0.85 !important;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12) !important;
+    }
+    
+    .blog-card.hidden {
+      z-index: 0;
+      transform: translateY(60px) scale(0.8) rotate(2deg) !important;
+      opacity: 0 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
+    }
+    
+    /* Swiping states */
+    .blog-card.swiping-left {
+      transform: translateX(-100%) rotate(-15deg) scale(0.8) !important;
+      opacity: 0 !important;
+    }
+    
+    .blog-card.swiping-right {
+      transform: translateX(100%) rotate(15deg) scale(0.8) !important;
+      opacity: 0 !important;
+    }
+    
+    /* Gentle bounce hint */
+    .blog-card.active {
+      animation: gentleBounce 6s ease-in-out infinite;
+    }
+    
+    @keyframes gentleBounce {
+      0%, 90%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+      3% { transform: translateY(-3px) scale(1.002) rotate(-0.3deg); }
+      6% { transform: translateY(0px) scale(1) rotate(0.2deg); }
+      9% { transform: translateY(-1px) scale(1.001) rotate(0deg); }
+    }
+    
+    /* Blog card content */
+    .blog-card {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .blog-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: calc(var(--radius) - 4px);
+      margin-bottom: 16px;
+    }
+    
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    .blog-date {
+      background: var(--clr-accent);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    
+    .blog-readtime {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .blog-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--clr-text);
+      line-height: 1.3;
+    }
+    
+    .blog-excerpt {
+      color: #555;
+      margin-bottom: auto;
+      line-height: 1.5;
+      font-size: 0.95rem;
+      flex-grow: 1;
+    }
+    
+    .blog-link {
+      color: var(--clr-accent);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: opacity 0.2s;
+      margin-top: 12px;
+      padding: 8px 0;
+    }
+    
+    .blog-link:hover {
+      opacity: 0.8;
+    }
+    
+    .blog-link::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    
+    .blog-link:hover::after {
+      transform: translateX(2px);
+    }
+    
+    /* Navigation Controls */
+    .pile-controls {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    
+    .pile-nav-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      color: var(--clr-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .pile-nav-btn:hover {
+      background: var(--clr-accent);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .pile-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: scale(1);
+      background: var(--clr-glass);
+      color: var(--clr-text);
+    }
+    
+    .pile-counter {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--clr-text);
+    }
+    
+    /* Blog message states */
+    .no-posts-message,
+    .blog-error-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: 48px 24px;
+    }
+    
+    .no-posts-message h3,
+    .blog-error-message h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--clr-text);
+    }
+    
+    .no-posts-message p,
+    .blog-error-message p {
+      color: #666;
+      font-size: 1rem;
+    }
+    
+    /* Image placeholder */
+    .blog-image-placeholder {
+      background: linear-gradient(135deg, var(--clr-glass), rgba(37, 198, 174, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 0.875rem;
+    }
+    
+    .blog-image-placeholder::before {
+      content: '📝';
+      font-size: 2rem;
+    }
+    
+    /* Interactive Timeline Styles */
+    .experience {
+      margin: 72px 0;
+      position: relative;
+    }
+    
+    .timeline-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 0;
+    }
+    
+    /* Central timeline line */
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--clr-accent), rgba(37, 198, 174, 0.3));
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 60px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .timeline-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    
+    /* Timeline nodes */
+    .timeline-node {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%) scale(0.5);
+      width: 50px;
+      height: 50px;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 3px solid var(--clr-accent);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--clr-accent);
+      text-align: center;
+      line-height: 1;
+      opacity: 0;
+    }
+    
+    .timeline-node.visible {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      background: var(--clr-accent);
+      color: white;
+      box-shadow: 0 0 20px rgba(37, 198, 174, 0.4);
+    }
+    
+    .timeline-node:hover {
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 0 25px rgba(37, 198, 174, 0.6);
+    }
+    
+    .timeline-year {
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+    
+    /* Timeline cards */
+    .timeline-content {
+      width: 45%;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .timeline-content.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .timeline-content.left {
+      margin-right: auto;
+      transform: translateY(50px) translateX(-30px);
+    }
+    
+    .timeline-content.left.visible {
+      transform: translateY(0) translateX(0);
+    }
+    
+    .timeline-content.right {
+      margin-left: auto;
+      transform: translateY(50px) translateX(30px);
+    }
+    
+    .timeline-content.right.visible {
+      transform: translateY(0) translateX(0);
+    }
+    
+    .timeline-header {
+      margin-bottom: 12px;
+    }
+    
+    .timeline-header h3 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      color: var(--clr-text);
+    }
+    
+    .timeline-meta {
+      font-size: 0.9rem;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .timeline-achievements {
+      list-style: none;
+      margin-top: 16px;
+    }
+    
+    .timeline-achievements li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    
+    .timeline-achievements li:before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--clr-accent);
+      font-weight: bold;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .timeline-line {
+        left: 30px;
+      }
+      
+      .timeline-item {
+        flex-direction: row !important;
+        padding-left: 70px;
+      }
+      
+      .timeline-item:nth-child(even) {
+        flex-direction: row !important;
+      }
+      
+      .timeline-node {
+        left: 30px;
+      }
+      
+      .timeline-content {
+        width: 100%;
+        margin: 0 !important;
+      }
+      
+      .timeline-content.left {
+        transform: translateY(50px);
+      }
+      
+      .timeline-content.right {
+        transform: translateY(50px);
+      }
+      
+      .timeline-content.left.visible,
+      .timeline-content.right.visible {
+        transform: translateY(0);
+      }
+    }
+    
+    footer {
+      text-align:center;
+      padding: var(--gap) 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; text-align:center; }
+      .hero img { order:-1; margin-bottom:16px; }
+      
+      /* Center hero social icons on mobile */
+      .hero-social {
+        justify-content: center;
+      }
+      
+      .hero-social-item {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .hero-social-item svg {
+        width: 18px;
+        height: 18px;
+      }
+      
+      /* Mobile Card Pile Layout */
+      .blog-pile-container {
+        height: 450px;
+        max-width: 100%;
+      }
+      
+      .blog-card {
+        padding: 20px;
+      }
+      
+      .blog-image {
+        height: 140px;
+      }
+      
+      .blog-title {
+        font-size: 1.2rem;
+      }
+      
+      .blog-excerpt {
+        font-size: 0.9rem;
+      }
+      
+      .pile-controls {
+        bottom: -50px;
+      }
+      
+      .pile-nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
-<body class="is-preload">
-
-<!-- Header -->
-<section id="header">
-    <div class="inner">
-        <span class="icon solid major fa-cloud"></span>
-        <h1>Hi, I'm <strong>Spencer Hayes-Laverdière</strong></h1>
-        <p>I'm an experienced Data Engineer, Data Scientist, and Machine Learning Engineer currently working
-            at <a href="https://crossingminds.com/" target="_blank">Crossing Minds</a>.<br/>
-            My current interests are the field of NLP and computer vision, especially relating to generation models.</p>
-        <ul class="icons">
-            <li><a href="https://www.linkedin.com/in/spencerhayeslaverdiere/" target='_blank'
-                   class="icon brands alt fa-linkedin"><span class="label">Twitter</span></a></li>
-            <li><a href="https://github.com/shaye059" target='_blank' class="icon brands alt fa-github">
-                <span class="label">GitHub</span></a></li>
-            <li><a href="https://spencer-hayes.medium.com/" target='_blank' class="icon brands alt fa-medium">
-                <span class="label">Medium</span></a></li>
-            <li><a href="mailto:spencer.hayes@meiacademy.com" class="icon solid alt fa-envelope"><span
-                    class="label">Email</span></a></li>
-        </ul>
-        <ul class="actions special">
-            <li><a href="#one" class="button scrolly">Learn More</a></li>
-        </ul>
-    </div>
-</section>
+<body class="mobile-option-1">
+  <div class="container">
+    <!-- Navigation -->
+    <!-- Logo -->
+    <!-- <div class="logo">Spencer Hayes-Laverdière</div> -->
+    
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <a href="#about" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">About</a>
+      <a href="#experience" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Experience</a>
+      <a href="#projects" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Projects</a>
+      <a href="blog.html" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Blog</a>
+      <a href="#contact" class="nav-item" style="color: rgba(51, 51, 51, 0.8); font-weight: 600; font-size: 0.875rem; text-decoration: none;">Contact</a>
+    </nav>
 
 
-<!-- One -->
-<section id="one" class="main style1">
-    <div class="container">
-        <div class="row gtr-150 d-flex align-items-center">
-            <div class="col-sm-6 col-12-medium">
-                <header class="major">
-                    <h2>Hey, that's me!</h2>
-                </header>
-                <p>
-                    I've worked on projects spanning many of the different sub-fields of AI including
-                    <strong>Classical Machine Learning</strong>, <strong>Natural
-                    Language Processing</strong>, <strong>Computer Vision</strong>, and <strong>Robotics
-                </strong>.
-                </p>
+    <header>
+    </header>
 
-                <p>
-                    Some of my personal projects have included a
-                    <a href="https://github.com/shaye059/ML-Music-Genre-Classification?tab=readme-ov-file"
-                       target="_blank">
-                        <strong>song genre prediciton model</strong></a> and a
-                    <a href="https://github.com/olivier-le-sage/robot-drone-collaboration" target="_blank">
-                        <strong>cooperative autonomous vehicle</strong></a>
-                    system for litter collection. These projects, as well as others, can be found on my
-                    <a href="https://github.com/shaye059" target="_blank">
-                        GitHub</a>. When I'm not building my own projects I love teaching others about
-                    engineering. I've taught classes and workshops on skills like coding and 3D printing to
-                    kids and adults. When I can, I also write blog articles for Towards Data Science. Check
-                    out my latest one: <a href="https://towardsdatascience.com/finding-seasonal-trends-in-
-								time-series-data-with-python-ce10c37aa861" target="_blank"> Finding Seasonal Trends in
-                    Time-Series Data with Python</a>.
-                </p>
-                <p>
-                    Interested in collaborating or just want to chat? Send me an email or reach out to me on
-                    social media.
-                </p>
-                <div class="padded-div align-center">
-                    <a href="mailto:spencer.hayes@meiacademy.com" class="button primary">Contact</a>
-                </div>
-            </div>
-            <div class="col-sm-6 col-12-medium imp-medium">
-                <span class="image fit"><img src="images/profile.jpg" alt=""/></span>
-            </div>
+    <!-- Hero Section -->
+    <section id="about" class="hero">
+      <div class="hero-text">
+        <h1>Spencer Hayes-Laverdière</h1>
+        <p>Generative AI (images & text), computer vision, and search & recommendation systems.</p>
+        <div class="hero-social">
+          <a href="https://www.linkedin.com/in/spencerhayeslaverdiere/" target="_blank" class="hero-social-item" title="LinkedIn">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/shaye059" target="_blank" class="hero-social-item" title="GitHub">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a href="https://spencer-hayes.medium.com/" target="_blank" class="hero-social-item" title="Medium">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+            </svg>
+          </a>
+          <a href="mailto:spencer.hayes@meiacademy.com" class="hero-social-item" title="Email">
+            <svg fill="currentColor" viewBox="0 0 24 24" stroke="none">
+              <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+              <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+            </svg>
+          </a>
         </div>
-    </div>
-</section>
+      </div>
+      <div class="hero-image card">
+        <img src="images/main.jpg" alt="Spencer Hayes-Laverdière">
+      </div>
+    </section>
 
-<section id="two" class="main style2">
-    <ul class="alt">
+    <!-- Experience -->
+    <section id="experience" class="experience">
+      <h2>Professional Experience</h2>
+      <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div id="timeline-items">
+          <!-- Timeline items will be generated from JSON -->
+        </div>
+      </div>
+    </section>
 
-        <li id="Projects">
-            <div class="container">
-                <div class="row gtr-50">
-                    <div class="col-sm-3 col-12-medium">
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <a href="https://github.com/shaye059/ML-Music-Genre-Classification?tab=readme-ov-file" target="_blank" class="project card">
+          <img src="images/music_classification.png" alt="Music Genre Classification">
+          <h3>Music Genre Classification</h3>
+          <p>AI-powered system that analyzes audio features to predict music genres with machine learning.</p>
+        </a>
+        <a href="model.html" class="project card">
+          <img src="images/varroa_detector.png" alt="BeeGuard AI - Varroa Mite Detection System">
+          <h3>BeeGuard AI</h3>
+          <p>Computer vision system that detects Varroa mites on honeybees using a custom finetuned ResNet model to help beekeepers protect their colonies.</p>
+        </a>
+        <a href="https://github.com/olivier-le-sage/robot-drone-collaboration" target="_blank" class="project card">
+          <img src="images/autonomous_collab.png" alt="Cooperative land-air drones">
+          <h3>Cooperative land-air drones</h3>
+          <p>Cooperative autonomous system where land and aerial robots work together to detect and collect litter using Mask R-CNN neural networks.</p>
+        </a>
+      </div>
+    </section>
 
-                        <h2 style="text-decoration: underline;"><i><strong>Projects</strong></i></h2>
-                    </div>
+    <!-- Blog Posts -->
+    <section id="blog" style="margin-top:72px;">
+      <h2>Recent Blog Posts</h2>
+      <div class="blog-pile-container">
+        <div class="blog-pile" id="blogPile">
+          <!-- Blog cards will be dynamically loaded -->
+        </div>
+        
+        <div class="pile-controls">
+          <button class="pile-nav-btn" id="prevBtn">‹</button>
+          <div class="pile-counter">
+            <span id="currentCard">1</span> / <span id="totalCards">0</span>
+          </div>
+          <button class="pile-nav-btn" id="nextBtn">›</button>
+        </div>
+      </div>
+    </section>
 
-                    <div class="col-sm-9 col-12-medium">
+    <!-- Contact -->
+    <section id="contact" style="margin-top:72px;">
+      <div class="card">
+        <h2>Get In Touch</h2>
+        <p>Interested in working together? Send me a message:</p>
+        <form id="contact-form">
+          <div id="form-status" style="margin-bottom: 16px; padding: 12px; border-radius: var(--radius); display: none;"></div>
+          
+          <label>
+            Name<br>
+            <input type="text" name="from_name" placeholder="Your Name" required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+          </label>
+          <label>
+            Email<br>
+            <input type="email" name="from_email" placeholder="you@example.com" required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;">
+          </label>
+          <label>
+            Message<br>
+            <textarea rows="4" name="message" placeholder="Your message..." required style="width:100%; padding:8px; margin-bottom:16px; border-radius: var(--radius); border:1px solid #ccc;"></textarea>
+          </label>
+          
+          
+          <button type="button" id="submit-btn" class="btn-primary g-recaptcha" 
+                  data-sitekey="6LdFRG0rAAAAAKIXj2nbNwxNgrjK4XIIpTOdmUyh" 
+                  data-callback="onSubmit" 
+                  data-action="submit">
+            <span id="submit-text">Send Message</span>
+            <span id="loading-text" style="display: none;">Sending...</span>
+          </button>
+        </form>
+      </div>
+    </section>
 
-                        <a href="/model" target="_blank">
-                            <h2 style="margin-bottom: 0em;">Bee Health Computer Vision: Varroa Mite Detection</h2>
-                        </a>
-                        <p> This project developed an AI-based solution for monitoring bee health, with a focus on
-                            distinguishing between bees and wasps and detecting varroa mites on bees. The initiative
-                            addressed the environmental challenge of maintaining healthy bee populations, given the
-                            detrimental impact of varroa mites.
-                            <br><br>
-                            A ResNet RS 350 model, fine-tuned on TensorFlow's bee_dataset, formed the core of this
-                            system. The model's capabilities were twofold: it differentiated between bees and wasps in
-                            images, and it identified varroa mites on bees. This distinction is crucial for beekeepers
-                            and environmentalists for effective bee population management and health monitoring.
-                            For deployment, the model was served using TensorFlow Serving within a Docker container,
-                            ensuring scalability and efficiency. The system architecture included a user-friendly
-                            frontend for image uploads and a backend server hosted on Cloud Run. This server managed
-                            request preprocessing and model prediction interactions.
+    <!-- Footer -->
+    <footer>
+      &copy; <span id="copyright-year">2025</span> Spencer Hayes-Laverdière
+    </footer>
+  </div>
+  
+  <script>
+    // Set current year in footer
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
 
-                        </p>
-                        <div class="padded-div align-center">
-                            <a href="/model" target='_blank' class="button">See Demo</a>
-                        </div>
+    window.onblur = function () { document.title = "Where'd you go?"; }
 
-                        <a href="https://github.com/shaye059/ML-Music-Genre-Classification/blob/master/main/src/Machine%20Learning%20for%20Music%20Genre%20Classification.ipynb"
-                           target="_blank">
-                            <h2 style="margin-bottom: 0em;">Music Genre Classification with a Neural Network</h2>
-                        </a>
-                        <p> Myself and two others built and trained a neural network that could classify songs into 10
-                            different genres. As part of the project we tested a baseline which was trained on the basic
-                            waveform amplitude of the audio file, and compared it to a model trained on 5 specifically
-                            chosen features. Our baseline saw a 2x improvement over randomly guessing the genre and our
-                            feature trained model saw a <strong>6x improvement</strong>, with accuracy around 64% on
-                            average.
-                            <br><br>
-                            The neural network used was a <strong>multi-layer feed forward network</strong> that was
-                            built using <strong>Keras</strong> and <strong>TensorFlow</strong>. Data was pulled from the
-                            <strong> <a href="http://marsyas.info/downloads/datasets.html" target='_blank'>GTZAN
-                            </a></strong> dataset and was preprocessed into <strong>Excel</strong> using automated
-                            Python
-                            methods that we created. The entire project was written in a <strong>Jupyter Notebook
-                            </strong>. More information about it is available
-                            <a href="https://github.com/shaye059/ML-Music-Genre-Classification" target="_blank">here</a>.
-
-                        </p>
-
-                        <a href="https://github.com/olivier-le-sage/robot-drone-collaboration" target="_blank">
-                            <h2 style="margin-bottom: 0em;"> Cooperative Autonomous System </h2>
-                        </a>
-                        <p>The goal of this project was to have two autonomous vehicles - a land based robot and an air
-                            based drone - cooperate together autonomously to complete a task. The task chosen for our
-                            demonstration was garbage collection but the system could easily be adapted to other tasks
-                            such as cleaning up oil spills.
-                            <br>
-                            <br>
-                            The system implemented a <strong>Mask R-CNN</strong> neural network that detected litter in
-                            images. The image processing and path planning was done in <strong>Python</strong> with
-                            <strong>OpenCV</strong> and <strong>NumPY</strong>. Most hardware components and sensors
-                            were programmed in <strong>C</strong>. The land based robot was powered by a
-                            <strong>Linux</strong>
-                            based RaspberryPi which also acted as an <strong>NGINX</strong> server for video streaming.
-                            You can learn more about this project
-                            <a href="https://github.com/olivier-le-sage/robot-drone-collaboration"
-                               target="_blank">here</a>.
-
-                        </p>
-
-
-                    </div>
-                </div>
-                <br>
-                <div class="padded-div align-center">
-                    <a href="https://github.com/shaye059" target='_blank' class="button">See All</a>
-                </div>
-
+    window.onfocus = function () { document.title = 'Spencer Hayes-Laverdiere'; }
+    
+    // Mobile navigation handling
+    function handleMobileNav() {
+      const nav = document.querySelector('.main-nav');
+      if (window.innerWidth <= 768 && document.body.classList.contains('mobile-option-1')) {
+        // Force nav to be centered and sticky on mobile using viewport width
+        nav.style.setProperty('position', 'fixed', 'important');
+        nav.style.setProperty('top', '24px', 'important');
+        nav.style.setProperty('left', '50vw', 'important');
+        nav.style.setProperty('right', 'auto', 'important');
+        nav.style.setProperty('transform', 'translateX(-50%)', 'important');
+        nav.style.setProperty('z-index', '50', 'important');
+        nav.style.setProperty('margin', '0', 'important');
+        nav.style.setProperty('width', 'auto', 'important');
+        nav.style.setProperty('height', 'auto', 'important');
+      }
+    }
+    
+    // Run on load and resize  
+    handleMobileNav();
+    window.addEventListener('resize', handleMobileNav);
+    window.addEventListener('orientationchange', handleMobileNav);
+    
+    // Ensure nav stays fixed on scroll
+    window.addEventListener('scroll', function() {
+      if (window.innerWidth <= 768 && document.body.classList.contains('mobile-option-1')) {
+        const nav = document.querySelector('.main-nav');
+        if (nav) {
+          nav.style.setProperty('position', 'fixed', 'important');
+          nav.style.setProperty('top', '24px', 'important');
+        }
+      }
+    });
+    
+    
+    // Load and render experience data
+    async function loadExperience() {
+      try {
+        const response = await fetch('./data/experience.json');
+        const experiences = await response.json();
+        renderTimeline(experiences);
+      } catch (error) {
+        console.error('Error loading experience data:', error);
+      }
+    }
+    
+    function renderTimeline(experiences) {
+      const container = document.getElementById('timeline-items');
+      
+      experiences.forEach(exp => {
+        const timelineItem = document.createElement('div');
+        timelineItem.className = 'timeline-item';
+        
+        timelineItem.innerHTML = `
+          <div class="timeline-node" data-target="${exp.id}">
+            <span>${exp.initials}</span>
+            <div class="timeline-year">${exp.year}</div>
+          </div>
+          <div class="timeline-content ${exp.side}" id="${exp.id}">
+            <div class="timeline-header">
+              <h3><a href="${exp.url}" target="_blank">${exp.company}</a></h3>
+              <div class="timeline-meta">${exp.role} • ${exp.period} • ${exp.location}</div>
             </div>
-        </li>
-
-        <li id="Work">
-            <div class="container">
-                <div class="row gtr-50">
-                    <div class="col-sm-3 col-12-medium">
-
-                        <h2 style="text-decoration: underline;"><i><strong>Work</strong></i></h2>
-                    </div>
-                    <!--TODO: Fix the ul css element so that there is one with the line seperator and one without instead of this janky line-break and hardcoded bullet points-->
-                    <div class="col-sm-9 col-12-medium">
-
-                        <h2 style="margin-bottom: 0em;"><a href="https://crossingminds.com/" target="_blank">
-                            Crossing Minds</a></h2>
-                        <em> Data/Machine Learning Engineer &#183; 2023 - Current &#183; San Francisco, CA
-                            (Remote)</em>
-                        <div class="custom-list-section">
-                            <ul>
-                                <li>Successfully designed and deployed a data pipeline and analytics API using Python and
-                                    Airflow, powering a billing system for a ChatGPT plugin, leading to a 30% increase in
-                                    billing efficiency.
-                                </li>
-
-                                <li>Engineered a hybrid analytics and logging endpoint, reducing frontend debug time by
-                                    over 50%, while also enhancing long-term analytics capabilities.
-                                </li>
-                                <li>Added schema checks to data ingestion API to increase HTTP 202 response completion
-                                rate by 17%.
-                                </li>
-                            </ul>
-                        </div>
-                        <br>
-
-                        <h2 style="margin-bottom: 0em;"><a href="https://www.leav.co/" target="_blank">
-                            Leav</a></h2>
-                        <em> Data Scientist & Manager &#183; 2021 - 2023 &#183; Montreal, QC</em>
-                        <div class="custom-list-section">
-                            <ul>
-                                <li>Led and managed the data department at Leav, overseeing all data-related
-                                    projects and managing and mentoring an intern.</li>
-                                <li>Led the development and deployment of a real-time recommendation algorithm using
-                                    the mlxtend library and Flask framework in Python, deployed as a Docker container on
-                                    Cloud Run and capable of serving hundreds of requests per second with minimal latency.</li>
-                                <li>Designed and integrated a robust end-to-end ELT data pipeline able to process</li>
-                                <li>events and their metadata per second with redundancy that led to no lost
-                                    data on two separate Cloud platform outages.</li>
-                            </ul>
-                        </div>
-                        <br>
-
-                        <h2 style="margin-bottom: 0em;"><a href="https://anagraph.io/" target="_blank">
-                            Anagraph</a></h2>
-                        <em> Data Scientist &#183; Contract May 2021 - Sep 2021 &#183; Montreal, QC</em>
-                        <div class="custom-list-section">
-                            <ul>
-                                <li>Delivered specialized geospatial data analyses using Python libraries and PostGIS,
-                                    improving client data insights.</li>
-                                <li>Developed custom location intelligence tools including one which helped an
-                                    international shipping company track regulation changes for trips through different
-                                    coastal jurisdictions.</li>
-                                <li>Improved in-house data science practices and tooling by incorporating a new
-                                    method for testing database functions in DBT and experimenting with tools like Jupyter
-                                    Hub to see how they fit with company workflows.</li>
-
-                            </ul>
-                        </div>
-                        <br>
-
-                        <h2 style="margin-bottom: 0em;"><a href="https://www.squarefeet.ai" target="_blank">
-                            SquareFeet.ai</a></h2>
-                        <em> Machine Learning Engineer &#183; 2020 - 2021 &#183; Montreal, QC</em>
-                        <div class="custom-list-section">
-                            <ul>
-                                <li>Spearheaded the development of pricing algorithms with mixed data inputs, contributing
-                                    to the company's successful acquisition.</li>
-                                <li>Created a search feature that could find the most similar property to an
-                                    input based on hundreds of different features and drawing from a dataset with over
-                                    5 million properties.</li>
-                                <li>Integrated explainable AI tools such as SHAP to give insights on models and
-                                    track metrics like class bias on model performance.</li>
-                                <li>Trained and deployed large cloud models using accelerated hardware through
-                                    AWS' SageMaker</li>
-                            </ul>
-                        </div>
-                        <br>
-
-                        <h2 style="margin-bottom: 0em;">University of Ottawa</h2>
-                        <em> Instructor &#183; 2018 - 2020 &#183; Ottawa, ON</em>
-                        <div class="custom-list-section">
-                            <ul>
-                                <li>Designed and taught Electrical & Computer Engineering courses, focusing on practical
-                                skills like coding and 3D printing.</li>
-                            </ul>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </li>
-        <li id="Education">
-            <div class="container">
-                <div class="row gtr-50">
-                    <div class="col-sm-3 col-12-medium">
-
-                        <h2 style="text-decoration: underline;"><i><strong>Education</strong></i></h2>
-                    </div>
-                    <div class="col-sm-9 col-12-medium">
-
-                        <h2 style="margin-bottom: 0em;">University of Ottawa</h2>
-                        <p><em> BASc Computer Engineering &#183; 2016 - 2020 &#183; Ottawa, ON</em>
-                        <p>Minor in Business Management & Entrepreneurship.
-                            <br>Capstone: Land-robot and aerial drone co-operative autonomous system.</p>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <div class="text-center padded-div">
-        <a href="Spencer Hayes-Laverdiere Resume.pdf" class="button icon solid fa-download ">Download Resume</a>
-    </div>
-</section>
-
-
-<!-- Footer -->
-<section id="footer">
-    <ul class="icons">
-        <li><a href="https://www.linkedin.com/in/spencerhayeslaverdiere/" target='_blank'
-               class="icon brands alt fa-linkedin"><span class="label">Twitter</span></a></li>
-        <li><a href="https://github.com/shaye059" target='_blank' class="icon brands alt fa-github"><span class="label">GitHub</span></a>
-        </li>
-        <li><a href="https://spencer-hayes.medium.com/" target='_blank' class="icon brands alt fa-medium"><span
-                class="label">Medium</span></a></li>
-        <li><a href="mailto:spencer.hayes@meiacademy.com" class="icon solid alt fa-envelope"><span
-                class="label">Email</span></a></li>
-    </ul>
-    <ul class="copyright">
-        <li>&copy; Spencer Hayes-Laverdière</li>
-    </ul>
-</section>
-
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/jquery.scrolly.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
-<script>
-
-			window.onblur = function () { document.title = "Where'd you go?"; }
-
-			window.onfocus = function () { document.title = 'Spencer Hayes-Laverdiere'; }
-
-
-
-</script>
-
+            <ul class="timeline-achievements">
+              ${exp.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+        
+        container.appendChild(timelineItem);
+      });
+      
+      // Initialize scroll animations after rendering
+      initializeScrollAnimations();
+    }
+    
+    function initializeScrollAnimations() {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      
+      const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '0px 0px -10% 0px'
+      };
+      
+      const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const node = entry.target.querySelector('.timeline-node');
+            const content = entry.target.querySelector('.timeline-content');
+            
+            setTimeout(() => {
+              node.classList.add('visible');
+            }, 50);
+            
+            setTimeout(() => {
+              content.classList.add('visible');
+            }, 150);
+          }
+        });
+      }, observerOptions);
+      
+      timelineItems.forEach(item => {
+        timelineObserver.observe(item);
+      });
+    }
+    
+    // Load experience data when page loads
+    loadExperience();
+    
+    // Blog Card Pile Functionality
+    class BlogCardPile {
+      constructor() {
+        this.currentIndex = 0;
+        this.cards = [];
+        this.blogData = [];
+        this.totalCards = 0;
+        this.pile = document.getElementById('blogPile');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.currentCardSpan = document.getElementById('currentCard');
+        this.totalCardsSpan = document.getElementById('totalCards');
+        
+        this.startX = 0;
+        this.currentX = 0;
+        this.isDragging = false;
+        
+        this.init();
+      }
+      
+      async init() {
+        try {
+          await this.loadBlogData();
+          this.renderBlogCards();
+          this.attachEventListeners();
+          this.updateDisplay();
+        } catch (error) {
+          console.error('Error initializing blog cards:', error);
+          this.showError();
+        }
+      }
+      
+      async loadBlogData() {
+        try {
+          const response = await fetch('./blog/blog-data.json');
+          if (!response.ok) {
+            throw new Error('Failed to load blog data');
+          }
+          this.blogData = await response.json();
+          
+          // Take only the latest 5 posts
+          this.blogData = this.blogData.slice(0, 5);
+          this.totalCards = this.blogData.length;
+          
+        } catch (error) {
+          console.warn('Could not load blog data, using fallback');
+          // Fallback to sample data
+          this.blogData = this.getFallbackData();
+          this.totalCards = this.blogData.length;
+        }
+      }
+      
+      renderBlogCards() {
+        if (this.blogData.length === 0) {
+          this.showNoPosts();
+          return;
+        }
+        
+        this.pile.innerHTML = '';
+        
+        this.blogData.forEach((post, index) => {
+          const card = this.createBlogCard(post, index);
+          this.pile.appendChild(card);
+        });
+        
+        this.cards = document.querySelectorAll('.blog-card');
+        this.totalCardsSpan.textContent = this.totalCards;
+      }
+      
+      createBlogCard(post, index) {
+        const article = document.createElement('article');
+        article.className = `blog-card ${index === 0 ? 'active' : index === 1 ? 'next' : ''}`;
+        article.setAttribute('data-index', index);
+        
+        const imageHtml = post.image ? 
+          `<img src="${post.image}" alt="${post.title}" class="blog-image">` : 
+          `<div class="blog-image blog-image-placeholder"></div>`;
+          
+        article.innerHTML = `
+          ${imageHtml}
+          <div class="blog-meta">
+            <span class="blog-date">${this.formatDate(post.date)}</span>
+            <span class="blog-readtime">⏱ ${post.readTime} min read</span>
+          </div>
+          <h3 class="blog-title">${post.title}</h3>
+          <p class="blog-excerpt">${post.excerpt}</p>
+          <a href="blog-template.html?post=${post.slug}" class="blog-link">Read Article</a>
+        `;
+        
+        return article;
+      }
+      
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
+      
+      showNoPosts() {
+        this.pile.innerHTML = `
+          <div class="no-posts-message">
+            <h3>Coming Soon</h3>
+            <p>Blog posts are on the way! Check back soon for insights on AI, computer vision, and technology. In the meantime, check out my <a href="https://medium.com/@spencer-hayes" target="_blank" style="color: var(--clr-accent); text-decoration: underline;">Medium publications</a>.</p>
+          </div>
+        `;
+        this.totalCardsSpan.textContent = '0';
+        this.prevBtn.disabled = true;
+        this.nextBtn.disabled = true;
+      }
+      
+      showError() {
+        this.pile.innerHTML = `
+          <div class="blog-error-message">
+            <h3>Unable to load blog posts</h3>
+            <p>Please try again later.</p>
+          </div>
+        `;
+        this.totalCardsSpan.textContent = '0';
+        this.prevBtn.disabled = true;
+        this.nextBtn.disabled = true;
+      }
+      
+      getFallbackData() {
+        return [];
+      }
+      
+      attachEventListeners() {
+        // Navigation buttons
+        this.prevBtn.addEventListener('click', () => this.previousCard());
+        this.nextBtn.addEventListener('click', () => this.nextCard());
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') this.previousCard();
+          if (e.key === 'ArrowRight') this.nextCard();
+        });
+        
+        // Touch/swipe events
+        this.pile.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: true });
+        this.pile.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: true });
+        this.pile.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+        
+        // Mouse events for desktop dragging
+        this.pile.addEventListener('mousedown', (e) => this.handleMouseDown(e));
+        this.pile.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        this.pile.addEventListener('mouseup', (e) => this.handleMouseUp(e));
+        this.pile.addEventListener('mouseleave', (e) => this.handleMouseUp(e));
+        
+        // Prevent context menu on long press
+        this.pile.addEventListener('contextmenu', (e) => e.preventDefault());
+      }
+      
+      handleTouchStart(e) {
+        this.startX = e.touches[0].clientX;
+        this.isDragging = true;
+      }
+      
+      handleTouchMove(e) {
+        if (!this.isDragging) return;
+        this.currentX = e.touches[0].clientX;
+        const diffX = this.currentX - this.startX;
+        
+        // Apply subtle transform feedback
+        if (Math.abs(diffX) > 10) {
+          const activeCard = this.cards[this.currentIndex];
+          const rotation = Math.max(-15, Math.min(15, diffX * 0.1));
+          const opacity = Math.max(0.5, 1 - Math.abs(diffX) * 0.002);
+          activeCard.style.transform = `translateX(${diffX * 0.3}px) rotate(${rotation}deg) scale(${opacity})`;
+        }
+      }
+      
+      handleTouchEnd(e) {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        
+        const diffX = this.currentX - this.startX;
+        const activeCard = this.cards[this.currentIndex];
+        
+        // Reset transform
+        activeCard.style.transform = '';
+        
+        // Determine swipe direction
+        if (Math.abs(diffX) > 50) {
+          if (diffX > 0) {
+            this.previousCard();
+          } else {
+            this.nextCard();
+          }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+      }
+      
+      handleMouseDown(e) {
+        this.startX = e.clientX;
+        this.isDragging = true;
+        this.pile.style.cursor = 'grabbing';
+      }
+      
+      handleMouseMove(e) {
+        if (!this.isDragging) return;
+        this.currentX = e.clientX;
+        const diffX = this.currentX - this.startX;
+        
+        // Apply subtle transform feedback
+        if (Math.abs(diffX) > 10) {
+          const activeCard = this.cards[this.currentIndex];
+          const rotation = Math.max(-10, Math.min(10, diffX * 0.05));
+          const opacity = Math.max(0.7, 1 - Math.abs(diffX) * 0.001);
+          activeCard.style.transform = `translateX(${diffX * 0.2}px) rotate(${rotation}deg) scale(${opacity})`;
+        }
+      }
+      
+      handleMouseUp(e) {
+        if (!this.isDragging) return;
+        this.isDragging = false;
+        this.pile.style.cursor = '';
+        
+        const diffX = this.currentX - this.startX;
+        const activeCard = this.cards[this.currentIndex];
+        
+        // Reset transform
+        activeCard.style.transform = '';
+        
+        // Determine swipe direction
+        if (Math.abs(diffX) > 80) {
+          if (diffX > 0) {
+            this.previousCard();
+          } else {
+            this.nextCard();
+          }
+        }
+        
+        this.startX = 0;
+        this.currentX = 0;
+      }
+      
+      nextCard() {
+        if (this.currentIndex < this.totalCards - 1) {
+          this.currentIndex++;
+          this.updateDisplay();
+        }
+      }
+      
+      previousCard() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.updateDisplay();
+        }
+      }
+      
+      updateDisplay() {
+        this.cards.forEach((card, index) => {
+          card.classList.remove('active', 'next', 'hidden');
+          
+          if (index === this.currentIndex) {
+            card.classList.add('active');
+          } else if (index === this.currentIndex + 1) {
+            card.classList.add('next');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+        
+        // Update counter
+        this.currentCardSpan.textContent = this.currentIndex + 1;
+        
+        // Update button states
+        this.prevBtn.disabled = this.currentIndex === 0;
+        this.nextBtn.disabled = this.currentIndex === this.totalCards - 1;
+      }
+    }
+    
+    // Initialize the card pile
+    new BlogCardPile();
+    
+    // EmailJS Configuration
+    (function() {
+      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
+    })();
+    
+    // reCAPTCHA callback function
+    function onSubmit(token) {
+      // Show loading state
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const loadingText = document.getElementById('loading-text');
+      
+      submitBtn.disabled = true;
+      submitText.style.display = 'none';
+      loadingText.style.display = 'inline';
+      
+      // Get form data
+      const form = document.getElementById('contact-form');
+      
+      // Send email via EmailJS
+      emailjs.sendForm("service_65vwgkg", "contact-us", form)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
+          form.reset();
+        }, function(error) {
+          console.log('FAILED...', error);
+          showFormStatus('Failed to send message. Please try again or contact me directly.', 'error');
+        })
+        .finally(function() {
+          // Reset button state
+          submitBtn.disabled = false;
+          submitText.style.display = 'inline';
+          loadingText.style.display = 'none';
+          // Reset reCAPTCHA
+          grecaptcha.reset();
+        });
+    }
+    
+    // Prevent form submission via Enter key (let reCAPTCHA handle it)
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+    });
+    
+    function showFormStatus(message, type) {
+      const statusDiv = document.getElementById('form-status');
+      statusDiv.textContent = message;
+      statusDiv.style.display = 'block';
+      
+      if (type === 'success') {
+        statusDiv.style.backgroundColor = 'rgba(34, 197, 94, 0.1)';
+        statusDiv.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+        statusDiv.style.color = '#059669';
+      } else {
+        statusDiv.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+        statusDiv.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+        statusDiv.style.color = '#dc2626';
+      }
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        statusDiv.style.display = 'none';
+      }, 5000);
+    }
+  </script>
 </body>
 </html>

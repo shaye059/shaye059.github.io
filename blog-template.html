@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title id="blog-title">Blog Post - Spencer Hayes-Laverdière</title>
+  <meta name="description" id="blog-description" content="">
+  
+  <!-- Same external dependencies as main site -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js" type="module"></script>
+  
+  <!-- Markdown parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  
+  <!-- Syntax highlighting for code blocks -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  
+  <style>
+    :root {
+      --clr-bg: #EAF5FF;
+      --clr-glass: rgba(255,255,255,0.2);
+      --clr-glass-border: rgba(255,255,255,0.4);
+      --clr-accent: #25C6AE;
+      --clr-text: #333333;
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --gap: 24px;
+    }
+    
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+      font-family: "SF Pro Text", -apple-system, sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.7;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+    
+    /* Navigation */
+    .blog-nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: 24px;
+      padding: 8px 16px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      gap: 8px;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+      color: var(--clr-text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(135, 206, 235, 0.1));
+      color: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+    }
+    
+    /* Blog Header */
+    .blog-header {
+      margin-top: 100px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    
+    .blog-featured-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .blog-meta-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .blog-date {
+      background: var(--clr-accent);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .blog-read-time {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #666;
+      font-size: 0.875rem;
+    }
+    
+    .blog-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 36px;
+    }
+    
+    .blog-tag {
+      background: rgba(37, 198, 174, 0.1);
+      color: var(--clr-accent);
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid rgba(37, 198, 174, 0.2);
+    }
+    
+    .blog-title {
+      font-family: "SF Pro Display", -apple-system, sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--clr-text);
+    }
+    
+    .blog-excerpt {
+      font-size: 1.2rem;
+      color: #666;
+      font-style: italic;
+      line-height: 1.5;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Blog Content */
+    .blog-content {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: 48px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 48px;
+    }
+    
+    .blog-content h1,
+    .blog-content h2,
+    .blog-content h3,
+    .blog-content h4,
+    .blog-content h5,
+    .blog-content h6 {
+      font-family: "SF Pro Display", -apple-system, sans-serif;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      color: var(--clr-text);
+    }
+    
+    .blog-content h1 { font-size: 2rem; }
+    .blog-content h2 { font-size: 1.75rem; }
+    .blog-content h3 { font-size: 1.5rem; }
+    .blog-content h4 { font-size: 1.25rem; }
+    
+    .blog-content h1:first-child,
+    .blog-content h2:first-child,
+    .blog-content h3:first-child {
+      margin-top: 0;
+    }
+    
+    .blog-content p {
+      margin-bottom: 24px;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    
+    .blog-content a {
+      color: var(--clr-accent);
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    
+    .blog-content a:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+    
+    .blog-content ul,
+    .blog-content ol {
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    
+    .blog-content li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    .blog-content blockquote {
+      border-left: 4px solid var(--clr-accent);
+      padding-left: 24px;
+      margin: 32px 0;
+      font-style: italic;
+      background: rgba(37, 198, 174, 0.05);
+      padding: 24px;
+      border-radius: var(--radius);
+    }
+    
+    .blog-content code {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: "SF Mono", Monaco, monospace;
+      font-size: 0.875rem;
+      color: var(--clr-text);
+    }
+    
+    .blog-content pre {
+      background: rgba(0, 0, 0, 0.05);
+      padding: 24px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      margin: 24px 0;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-content pre code {
+      background: none;
+      padding: 0;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    
+    .blog-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      margin: 24px 0;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    /* Navigation between posts */
+    .post-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 48px 0;
+      gap: 24px;
+    }
+    
+    .nav-post {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      color: var(--clr-text);
+      transition: all 0.3s ease;
+      flex: 1;
+      max-width: 300px;
+    }
+    
+    .nav-post:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    
+    .nav-post-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--clr-accent);
+      margin-bottom: 8px;
+    }
+    
+    .nav-post-title {
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    
+    /* Back to blog */
+    .back-to-blog {
+      text-align: center;
+      margin: 48px 0;
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--clr-accent);
+      color: white;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .back-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      color: #666;
+    }
+    
+    .error {
+      text-align: center;
+      padding: 48px;
+      color: #dc2626;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius);
+      margin: 24px 0;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px;
+      }
+      
+      .blog-nav {
+        top: 16px;
+        padding: 6px 12px;
+        gap: 6px;
+      }
+      
+      .nav-item {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .blog-header {
+        margin-top: 80px;
+        margin-bottom: 32px;
+      }
+      
+      .blog-title {
+        font-size: 2rem;
+      }
+      
+      .blog-excerpt {
+        font-size: 1.1rem;
+      }
+      
+      .blog-content {
+        padding: 24px;
+      }
+      
+      .blog-meta-header {
+        gap: 16px;
+      }
+      
+      .post-navigation {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .nav-post {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="blog-nav">
+    <a href="/" class="nav-item">← Home</a>
+    <a href="blog.html" class="nav-item">All Posts</a>
+  </nav>
+
+  <div class="container">
+    <!-- Loading State -->
+    <div id="loading" class="loading">
+      Loading blog post...
+    </div>
+
+    <!-- Error State -->
+    <div id="error" class="error" style="display: none;">
+      <h3>Blog post not found</h3>
+      <p>The requested blog post could not be loaded.</p>
+    </div>
+
+    <!-- Blog Content -->
+    <article id="blog-article" style="display: none;">
+      <!-- Blog Header -->
+      <header class="blog-header">
+        <img id="featured-image" class="blog-featured-image" src="" alt="" style="display: none;">
+        
+        <div class="blog-meta-header">
+          <span id="blog-date" class="blog-date"></span>
+          <div id="blog-read-time" class="blog-read-time">
+            ⏱ <span id="read-time-value"></span> min read
+          </div>
+        </div>
+        
+        <h1 id="article-title" class="blog-title"></h1>
+        <p id="article-excerpt" class="blog-excerpt"></p>
+        
+        <div id="blog-tags" class="blog-tags"></div>
+      </header>
+
+      <!-- Blog Content -->
+      <div id="article-content" class="blog-content">
+        <!-- Markdown content will be rendered here -->
+      </div>
+
+      <!-- Post Navigation -->
+      <nav class="post-navigation">
+        <a id="prev-post" class="nav-post" href="#" style="display: none;">
+          <div class="nav-post-label">Previous Post</div>
+          <div class="nav-post-title"></div>
+        </a>
+        
+        <a id="next-post" class="nav-post" href="#" style="display: none;">
+          <div class="nav-post-label">Next Post</div>
+          <div class="nav-post-title"></div>
+        </a>
+      </nav>
+
+      <!-- Back to Blog -->
+      <div class="back-to-blog">
+        <a href="blog.html" class="back-btn">
+          ← Back to All Posts
+        </a>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    class BlogPostRenderer {
+      constructor() {
+        this.blogSlug = this.getBlogSlugFromURL();
+        this.blogData = null;
+        this.currentPost = null;
+        this.init();
+      }
+
+      getBlogSlugFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('post') || urlParams.get('slug');
+      }
+
+      async init() {
+        if (!this.blogSlug) {
+          this.showError('No blog post specified');
+          return;
+        }
+
+        try {
+          // Load blog data
+          await this.loadBlogData();
+          
+          // Find the current post
+          this.currentPost = this.blogData.find(post => post.slug === this.blogSlug);
+          
+          if (!this.currentPost) {
+            this.showError('Blog post not found');
+            return;
+          }
+
+          // Load and render the post
+          await this.loadAndRenderPost();
+          
+        } catch (error) {
+          console.error('Error loading blog post:', error);
+          this.showError('Failed to load blog post');
+        }
+      }
+
+      async loadBlogData() {
+        try {
+          const response = await fetch('./blog/blog-data.json');
+          if (!response.ok) {
+            throw new Error('Failed to load blog data');
+          }
+          this.blogData = await response.json();
+        } catch (error) {
+          // Fallback to sample data for development
+          console.warn('Could not load blog-data.json, using sample data');
+          this.blogData = this.getSampleBlogData();
+        }
+      }
+
+      async loadAndRenderPost() {
+        try {
+          // Load markdown content
+          const response = await fetch(`./blog/posts/${this.currentPost.slug}.md`);
+          if (!response.ok) {
+            throw new Error('Failed to load markdown file');
+          }
+          
+          const markdownContent = await response.text();
+          
+          // Parse frontmatter and content
+          const { frontmatter, content } = this.parseFrontmatter(markdownContent);
+          
+          // Update page metadata
+          this.updatePageMetadata(frontmatter);
+          
+          // Render the post
+          this.renderPost(frontmatter, content);
+          
+          // Setup navigation
+          this.setupPostNavigation();
+          
+          // Show the article
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('blog-article').style.display = 'block';
+          
+        } catch (error) {
+          console.error('Error rendering post:', error);
+          this.showError('Failed to render blog post');
+        }
+      }
+
+      parseFrontmatter(content) {
+        const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+        const match = content.match(frontmatterRegex);
+        
+        if (match) {
+          try {
+            const frontmatter = jsyaml.load(match[1]);
+            const markdownContent = match[2];
+            return { frontmatter, content: markdownContent };
+          } catch (error) {
+            console.error('Error parsing frontmatter:', error);
+          }
+        }
+        
+        // Fallback if no frontmatter found
+        return { 
+          frontmatter: this.currentPost, 
+          content: content 
+        };
+      }
+
+      updatePageMetadata(frontmatter) {
+        document.getElementById('blog-title').textContent = `${frontmatter.title} - Spencer Hayes-Laverdière`;
+        document.getElementById('blog-description').setAttribute('content', frontmatter.excerpt || '');
+      }
+
+      renderPost(frontmatter, content) {
+        // Render header
+        document.getElementById('article-title').textContent = frontmatter.title;
+        document.getElementById('article-excerpt').textContent = frontmatter.excerpt || '';
+        document.getElementById('blog-date').textContent = this.formatDate(frontmatter.date);
+        document.getElementById('read-time-value').textContent = frontmatter.readTime || '5';
+
+        // Featured image
+        if (frontmatter.image) {
+          const img = document.getElementById('featured-image');
+          img.src = frontmatter.image;
+          img.alt = frontmatter.title;
+          img.style.display = 'block';
+        }
+
+        // Tags
+        if (frontmatter.tags && frontmatter.tags.length > 0) {
+          const tagsContainer = document.getElementById('blog-tags');
+          tagsContainer.innerHTML = frontmatter.tags
+            .map(tag => `<span class="blog-tag">${tag}</span>`)
+            .join('');
+        }
+
+        // Render markdown content
+        const renderer = new marked.Renderer();
+        
+        // Configure marked options
+        marked.setOptions({
+          renderer: renderer,
+          highlight: function(code, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+              try {
+                return hljs.highlight(code, { language: lang }).value;
+              } catch (err) {}
+            }
+            return hljs.highlightAuto(code).value;
+          },
+          breaks: true,
+          gfm: true
+        });
+
+        const htmlContent = marked.parse(content);
+        document.getElementById('article-content').innerHTML = htmlContent;
+      }
+
+      setupPostNavigation() {
+        const currentIndex = this.blogData.findIndex(post => post.slug === this.blogSlug);
+        
+        // Previous post
+        if (currentIndex > 0) {
+          const prevPost = this.blogData[currentIndex - 1];
+          const prevLink = document.getElementById('prev-post');
+          prevLink.href = `?post=${prevPost.slug}`;
+          prevLink.querySelector('.nav-post-title').textContent = prevPost.title;
+          prevLink.style.display = 'block';
+        }
+        
+        // Next post
+        if (currentIndex < this.blogData.length - 1) {
+          const nextPost = this.blogData[currentIndex + 1];
+          const nextLink = document.getElementById('next-post');
+          nextLink.href = `?post=${nextPost.slug}`;
+          nextLink.querySelector('.nav-post-title').textContent = nextPost.title;
+          nextLink.style.display = 'block';
+        }
+      }
+
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
+
+      showError(message) {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.querySelector('#error p').textContent = message;
+      }
+
+      getSampleBlogData() {
+        return [
+          {
+            title: "The Future of Generative AI in Creative Industries",
+            excerpt: "Exploring how AI-powered tools are transforming the creative landscape and what it means for designers, artists, and content creators.",
+            date: "2025-03-15",
+            readTime: 5,
+            image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+            tags: ["AI", "Creative", "Technology"],
+            slug: "future-generative-ai-creative-industries"
+          }
+        ];
+      }
+    }
+
+    // Initialize blog post renderer when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new BlogPostRenderer();
+    });
+  </script>
+</body>
+</html>

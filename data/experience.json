@@ -1,0 +1,95 @@
+[
+  {
+    "id": "off-script",
+    "company": "Off/Script",
+    "url": "#",
+    "role": "Machine Learning Engineer",
+    "period": "Apr 2024 - Sept 2024",
+    "location": "Montreal, QC",
+    "year": "2024",
+    "initials": "OS",
+    "side": "right",
+    "achievements": [
+      "Reduced GPU VRAM requirements by 50%, saving the company $10k per month on server costs",
+      "Developed a sketch-to-image tool using Stable Diffusion enabling users to generate images starting from an existing sketch",
+      "Led the development of the ML team's REST API, serving endpoints including a new feed model that reduced latency from over 3 seconds to under 500ms, incorporating automated documentation, testing, and schema validation"
+    ]
+  },
+  {
+    "id": "crossing-minds",
+    "company": "Crossing Minds",
+    "url": "https://crossingminds.com/",
+    "role": "Data/Machine Learning Engineer",
+    "period": "Jan 2023 - Apr 2024",
+    "location": "San Francisco, CA (Remote)",
+    "year": "2023",
+    "initials": "CM",
+    "side": "left",
+    "achievements": [
+      "Successfully designed and deployed data pipelines using Python and Airflow for a LangChain Agent leading to a 30% increase in billing efficiency",
+      "Added 4 new endpoints to a distributed micro-service REST API platform on Kubernetes that serves real-time low-latency recommendations",
+      "Engineered a hybrid analytics and logging endpoint that fed events to Looker and BigQuery, reducing frontend debug time by over 50%, while also enhancing long-term analytics capabilities"
+    ]
+  },
+  {
+    "id": "leav",
+    "company": "Leav",
+    "url": "https://www.leav.co/",
+    "role": "Head of Data",
+    "period": "Sept 2021 - Jan 2023",
+    "location": "Montreal, QC",
+    "year": "2021",
+    "initials": "LV",
+    "side": "right",
+    "achievements": [
+      "Designed and deployed a robust data infrastructure for real-time event streaming on Azure and oversaw its migration to GCP using Pub/Sub, Dataflow, and Cloud Storage",
+      "Oversaw training and deployment of a real-time recommendation API in Python with Flask, served on Cloud Run using Docker containerization, achieving sub 500 millisecond response times for hundreds of requests per second",
+      "Participated in the development and optimization of a real-time computer vision model using Tensorflow and NVIDIA TensorRT"
+    ]
+  },
+  {
+    "id": "anagraph",
+    "company": "Anagraph",
+    "url": "https://anagraph.io/",
+    "role": "Data Scientist - Contract",
+    "period": "May 2021 - Sept 2021",
+    "location": "Montreal, QC",
+    "year": "2021",
+    "initials": "AN",
+    "side": "left",
+    "achievements": [
+      "Delivered specialized geospatial data analyses using Python and SQL",
+      "Designed and built in-house data science infrastructure, including new DBT testing methods and a JupyterHub deployment"
+    ]
+  },
+  {
+    "id": "squarefeet",
+    "company": "SquareFeet.ai",
+    "url": "https://betakit.com/acquisition-roundup-clio-chainsafe-versaterm-obie-covience-squarefeet-ai-lifelearn-animal-health/#:~:text=SquareFeet.ai%20acquired%20by%20pair%20of%20appraisal%20firms",
+    "role": "Machine Learning Engineer",
+    "period": "Sept 2020 - May 2021",
+    "location": "Montreal, QC",
+    "year": "2020",
+    "initials": "SF",
+    "side": "right",
+    "achievements": [
+      "Spearheaded the development of pricing and search algorithms on datasets of 10+ million instances through tools like Tensorflow, PyTorch, XGBoost, and PostGIS, contributing to the company's successful acquisition",
+      "Setup MLOps tools like MLFlow, SHAP, and Data Version Control to track model insights, perform validation, and simplify deployment",
+      "Trained and deployed large cloud models using accelerated hardware through AWS' SageMaker"
+    ]
+  },
+  {
+    "id": "university-ottawa",
+    "company": "University of Ottawa",
+    "url": "https://www.uottawa.ca/",
+    "role": "Instructor",
+    "period": "2018 - 2020",
+    "location": "Ottawa, ON",
+    "year": "2018",
+    "initials": "UO",
+    "side": "left",
+    "achievements": [
+      "Designed and taught Electrical & Computer Engineering courses, focusing on practical skills like coding and 3D printing"
+    ]
+  }
+]

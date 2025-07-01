@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog - Spencer Hayes-Laverdière</title>
+  <meta name="description" content="Blog posts about AI, machine learning, computer vision, and technology by Spencer Hayes-Laverdière">
+  
+  <!-- Same external dependencies as main site -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js" type="module"></script>
+  
+  <style>
+    :root {
+      --clr-bg: #EAF5FF;
+      --clr-glass: rgba(255,255,255,0.2);
+      --clr-glass-border: rgba(255,255,255,0.4);
+      --clr-accent: #25C6AE;
+      --clr-text: #333333;
+      --shadow-soft: 0 8px 32px rgba(0,0,0,0.1);
+      --radius: 12px;
+      --gap: 24px;
+    }
+    
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    body {
+      font-family: "SF Pro Text", -apple-system, sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--gap);
+    }
+    
+    /* Navigation */
+    .blog-nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: 24px;
+      padding: 8px 16px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      gap: 8px;
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-item {
+      position: relative;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+      color: var(--clr-text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+    
+    .nav-item:hover {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(135, 206, 235, 0.1));
+      color: rgba(255, 255, 255, 1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(135, 206, 235, 0.2);
+    }
+    
+    /* Page Header */
+    .page-header {
+      margin-top: 100px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    
+    .page-title {
+      font-family: "SF Pro Display", -apple-system, sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--clr-text);
+    }
+    
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Filter Section */
+    .filter-section {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: 24px 32px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0;
+      flex-wrap: wrap;
+      gap: 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .filter-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .filter-toggle-icon {
+      transition: transform 0.3s ease;
+      font-size: 1rem;
+    }
+    
+    .filter-toggle-icon.collapsed {
+      transform: rotate(-90deg);
+    }
+    
+    .filter-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--clr-text);
+    }
+    
+    .posts-count {
+      background: var(--clr-accent);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .tag-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 12px;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .tag-filters.collapsed {
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0;
+    }
+    
+    .filter-label {
+      font-weight: 600;
+      color: var(--clr-text);
+      margin-right: 8px;
+    }
+    
+    .tag-filter {
+      background: rgba(255, 255, 255, 0.3);
+      color: var(--clr-text);
+      border: 1px solid var(--clr-glass-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+    }
+    
+    .tag-filter:hover {
+      background: rgba(37, 198, 174, 0.2);
+      border-color: var(--clr-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 198, 174, 0.3);
+    }
+    
+    .tag-filter.active {
+      background: var(--clr-accent);
+      color: white;
+      border-color: var(--clr-accent);
+      box-shadow: 0 4px 12px rgba(37, 198, 174, 0.4);
+    }
+    
+    .tag-filter.all {
+      background: var(--clr-text);
+      color: white;
+      border-color: var(--clr-text);
+    }
+    
+    .tag-filter.all.active {
+      background: var(--clr-text);
+    }
+    
+    .clear-filters {
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: none;
+    }
+    
+    .clear-filters.visible {
+      display: inline-block;
+    }
+    
+    .clear-filters:hover {
+      background: rgba(239, 68, 68, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    /* Blog Grid */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: var(--gap);
+      margin-bottom: 48px;
+    }
+    
+    .blog-post-card {
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      padding: 0;
+      box-shadow: var(--shadow-soft);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideInUp 0.6s ease-out forwards;
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .blog-post-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .post-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 0;
+    }
+    
+    .post-image-placeholder {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, var(--clr-glass), rgba(37, 198, 174, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 2rem;
+    }
+    
+    .post-content {
+      padding: 24px;
+    }
+    
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .post-date {
+      background: var(--clr-accent);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+    
+    .post-read-time {
+      color: #666;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .post-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--clr-text);
+      line-height: 1.3;
+    }
+    
+    .post-excerpt {
+      color: #555;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    
+    .post-tag {
+      background: rgba(37, 198, 174, 0.1);
+      color: var(--clr-accent);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      border: 1px solid rgba(37, 198, 174, 0.2);
+    }
+    
+    .read-more {
+      color: var(--clr-accent);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    
+    .read-more::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    
+    .blog-post-card:hover .read-more::after {
+      transform: translateX(4px);
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      background: var(--clr-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--clr-glass-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--clr-text);
+    }
+    
+    .empty-state p {
+      color: #666;
+      font-size: 1rem;
+    }
+    
+    /* Loading State */
+    .loading-state {
+      text-align: center;
+      padding: 80px 24px;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(37, 198, 174, 0.3);
+      border-top: 3px solid var(--clr-accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 16px;
+      }
+      
+      .blog-nav {
+        top: 16px;
+        padding: 6px 12px;
+        gap: 6px;
+      }
+      
+      .nav-item {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      
+      .page-header {
+        margin-top: 80px;
+        margin-bottom: 32px;
+      }
+      
+      .page-title {
+        font-size: 2.5rem;
+      }
+      
+      .page-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .filter-section {
+        padding: 16px 20px;
+      }
+      
+      .filter-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
+      
+      .filter-toggle {
+        flex-direction: row;
+      }
+      
+      .tag-filters {
+        justify-content: center;
+      }
+      
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .blog-post-card {
+        animation-delay: 0s;
+      }
+    }
+    
+    /* Animation delays for staggered entrance */
+    .blog-post-card:nth-child(1) { animation-delay: 0.1s; }
+    .blog-post-card:nth-child(2) { animation-delay: 0.2s; }
+    .blog-post-card:nth-child(3) { animation-delay: 0.3s; }
+    .blog-post-card:nth-child(4) { animation-delay: 0.4s; }
+    .blog-post-card:nth-child(5) { animation-delay: 0.5s; }
+    .blog-post-card:nth-child(6) { animation-delay: 0.6s; }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="blog-nav">
+    <a href="/" class="nav-item">← Home</a>
+    <a href="/#about" class="nav-item">About</a>
+    <a href="/#experience" class="nav-item">Experience</a>
+    <a href="/#contact" class="nav-item">Contact</a>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1 class="page-title">Blog</h1>
+      <p class="page-subtitle">Thoughts on AI, machine learning, computer vision, and the future of technology</p>
+    </header>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading blog posts...</p>
+    </div>
+
+    <!-- Filter Section -->
+    <section id="filter-section" class="filter-section" style="display: none;">
+      <div class="filter-header" id="filter-header">
+        <div class="filter-toggle">
+          <h2 class="filter-title">Filter by Topic</h2>
+          <span class="filter-toggle-icon collapsed" id="filter-toggle-icon">▼</span>
+        </div>
+        <div class="posts-count" id="posts-count">0 Posts</div>
+      </div>
+      
+      <div class="tag-filters collapsed" id="tag-filters">
+        <!-- Tag filters will be dynamically generated -->
+      </div>
+    </section>
+
+    <!-- Blog Grid -->
+    <section id="blog-grid" class="blog-grid" style="display: none;">
+      <!-- Blog posts will be dynamically generated -->
+    </section>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <h3>Coming Soon</h3>
+      <p>Blog posts are on the way! Check back soon for insights on AI, computer vision, and technology. In the meantime, check out my <a href="https://medium.com/@spencer-hayes" target="_blank" style="color: var(--clr-accent); text-decoration: underline;">Medium publications</a>.</p>
+    </div>
+  </div>
+
+  <script>
+    class BlogListingPage {
+      constructor() {
+        this.blogData = [];
+        this.filteredPosts = [];
+        this.selectedTag = 'All';
+        this.allTags = [];
+        this.isFilterExpanded = false;
+        
+        this.elements = {
+          loading: document.getElementById('loading'),
+          filterSection: document.getElementById('filter-section'),
+          blogGrid: document.getElementById('blog-grid'),
+          emptyState: document.getElementById('empty-state'),
+          tagFilters: document.getElementById('tag-filters'),
+          postsCount: document.getElementById('posts-count'),
+          filterHeader: document.getElementById('filter-header'),
+          filterToggleIcon: document.getElementById('filter-toggle-icon')
+        };
+        
+        this.init();
+      }
+      
+      async init() {
+        try {
+          await this.loadBlogData();
+          this.extractTags();
+          this.renderTagFilters();
+          this.setupFilterToggle();
+          this.filterPosts();
+          this.showContent();
+        } catch (error) {
+          console.error('Error initializing blog page:', error);
+          this.showError();
+        }
+      }
+      
+      async loadBlogData() {
+        try {
+          const response = await fetch('./blog/blog-data.json');
+          if (!response.ok) {
+            throw new Error('Failed to load blog data');
+          }
+          this.blogData = await response.json();
+        } catch (error) {
+          console.warn('Could not load blog data, using fallback');
+          this.blogData = this.getFallbackData();
+        }
+      }
+      
+      extractTags() {
+        const tagSet = new Set();
+        this.blogData.forEach(post => {
+          if (post.tags && Array.isArray(post.tags)) {
+            post.tags.forEach(tag => tagSet.add(tag));
+          }
+        });
+        this.allTags = Array.from(tagSet).sort();
+      }
+      
+      setupFilterToggle() {
+        this.elements.filterHeader.addEventListener('click', () => {
+          this.toggleFilters();
+        });
+      }
+      
+      toggleFilters() {
+        this.isFilterExpanded = !this.isFilterExpanded;
+        
+        if (this.isFilterExpanded) {
+          this.elements.tagFilters.classList.remove('collapsed');
+          this.elements.filterToggleIcon.classList.remove('collapsed');
+        } else {
+          this.elements.tagFilters.classList.add('collapsed');
+          this.elements.filterToggleIcon.classList.add('collapsed');
+        }
+      }
+      
+      renderTagFilters() {
+        let filtersHTML = `
+          <span class="filter-label">Topics:</span>
+          <button class="tag-filter all active" data-tag="All">All Posts</button>
+        `;
+        
+        this.allTags.forEach(tag => {
+          filtersHTML += `<button class="tag-filter" data-tag="${tag}">${tag}</button>`;
+        });
+        
+        filtersHTML += `<button class="clear-filters" id="clear-filters-btn" onclick="blogPage.clearFilters()">Clear Filters</button>`;
+        
+        this.elements.tagFilters.innerHTML = filtersHTML;
+        
+        // Add event listeners
+        this.elements.tagFilters.addEventListener('click', (e) => {
+          if (e.target.classList.contains('tag-filter')) {
+            this.selectTag(e.target.dataset.tag);
+          }
+        });
+      }
+      
+      selectTag(tag) {
+        this.selectedTag = tag;
+        
+        // Update active state
+        this.elements.tagFilters.querySelectorAll('.tag-filter').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        this.elements.tagFilters.querySelector(`[data-tag="${tag}"]`).classList.add('active');
+        
+        // Show/hide clear filters button
+        const clearBtn = document.getElementById('clear-filters-btn');
+        if (tag === 'All') {
+          clearBtn.classList.remove('visible');
+        } else {
+          clearBtn.classList.add('visible');
+        }
+        
+        // Filter and render posts
+        this.filterPosts();
+      }
+      
+      clearFilters() {
+        this.selectTag('All');
+      }
+      
+      filterPosts() {
+        if (this.selectedTag === 'All') {
+          this.filteredPosts = [...this.blogData];
+        } else {
+          this.filteredPosts = this.blogData.filter(post => 
+            post.tags && post.tags.includes(this.selectedTag)
+          );
+        }
+        
+        this.updatePostsCount();
+        this.renderBlogGrid();
+      }
+      
+      updatePostsCount() {
+        const count = this.filteredPosts.length;
+        const text = count === 1 ? 'Post' : 'Posts';
+        this.elements.postsCount.textContent = `${count} ${text}`;
+      }
+      
+      renderBlogGrid() {
+        if (this.filteredPosts.length === 0) {
+          this.elements.blogGrid.style.display = 'none';
+          this.elements.emptyState.style.display = 'block';
+          return;
+        }
+        
+        this.elements.emptyState.style.display = 'none';
+        this.elements.blogGrid.style.display = 'grid';
+        
+        this.elements.blogGrid.innerHTML = this.filteredPosts.map((post, index) => 
+          this.createPostCard(post, index)
+        ).join('');
+      }
+      
+      createPostCard(post, index) {
+        const imageHtml = post.image ? 
+          `<img src="${post.image}" alt="${post.title}" class="post-image">` : 
+          `<div class="post-image-placeholder">📝</div>`;
+          
+        const tagsHtml = post.tags ? 
+          post.tags.map(tag => `<span class="post-tag">${tag}</span>`).join('') : 
+          '';
+        
+        return `
+          <a href="blog-template.html?post=${post.slug}" class="blog-post-card" style="animation-delay: ${index * 0.1}s;">
+            ${imageHtml}
+            <div class="post-content">
+              <div class="post-meta">
+                <span class="post-date">${this.formatDate(post.date)}</span>
+                <div class="post-read-time">⏱ ${post.readTime} min read</div>
+              </div>
+              <h3 class="post-title">${post.title}</h3>
+              <p class="post-excerpt">${post.excerpt}</p>
+              ${tagsHtml ? `<div class="post-tags">${tagsHtml}</div>` : ''}
+              <div class="read-more">Read Article</div>
+            </div>
+          </a>
+        `;
+      }
+      
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { 
+          year: 'numeric',
+          month: 'short', 
+          day: 'numeric' 
+        });
+      }
+      
+      showContent() {
+        this.elements.loading.style.display = 'none';
+        this.elements.filterSection.style.display = 'block';
+        this.elements.blogGrid.style.display = 'grid';
+      }
+      
+      showError() {
+        this.elements.loading.style.display = 'none';
+        this.elements.emptyState.style.display = 'block';
+        this.elements.emptyState.innerHTML = `
+          <h3>Unable to load blog posts</h3>
+          <p>Please try refreshing the page or check back later.</p>
+        `;
+      }
+      
+      getFallbackData() {
+        return [];
+      }
+    }
+
+    // Initialize blog page when DOM is loaded
+    let blogPage;
+    document.addEventListener('DOMContentLoaded', () => {
+      blogPage = new BlogListingPage();
+    });
+  </script>
+</body>
+</html>
