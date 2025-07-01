@@ -1,9 +1,25 @@
 <!DOCTYPE html>
+<!--
+	Taking a little look behind the curtain I see.
+	Yep, this website was also designed and made
+  by me.
+	-Spencer
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Spencer Hayes-Laverdière</title>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1D23VKTSPL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1D23VKTSPL');
+  </script>
   
   <!-- EmailJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -141,7 +157,13 @@
         position: fixed !important;
         z-index: 50 !important;
         margin: 0 !important;
-        padding: 8px 16px !important;
+        padding: 6px 12px !important;
+        gap: 4px !important;
+      }
+      
+      .mobile-option-1 .nav-item {
+        padding: 6px 12px !important;
+        font-size: 0.8rem !important;
       }
     }
 
@@ -211,6 +233,22 @@
       gap: var(--gap);
     }
     .project h3 { font-size:1.25rem; margin-bottom:8px; }
+    
+    /* Override link styling for project cards */
+    .project.card {
+      color: var(--clr-text);
+      text-decoration: none;
+    }
+    .project.card:hover {
+      color: var(--clr-text);
+      text-decoration: none;
+    }
+    .project.card h3 {
+      color: var(--clr-text);
+    }
+    .project.card p {
+      color: var(--clr-text);
+    }
     
     /* Card Pile Blog Layout */
     .blog-pile-container {
@@ -795,8 +833,9 @@
             </svg>
           </a>
           <a href="mailto:spencer.hayes@meiacademy.com" class="hero-social-item" title="Email">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            <svg fill="currentColor" viewBox="0 0 24 24" stroke="none">
+              <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+              <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
             </svg>
           </a>
         </div>
@@ -819,23 +858,23 @@
 
     <!-- Projects -->
     <section id="projects">
-      <h2>Selected Projects</h2>
+      <h2>Projects</h2>
       <div class="projects">
-        <div class="project card">
-          <img src="https://images.pexels.com/photos/32634570/pexels-photo-32634570.jpeg" alt="Web UI design">
-          <h3>Project One</h3>
-          <p>A sleek web app with immersive glass UI interactions.</p>
-        </div>
-        <div class="project card">
-          <img src="https://images.pexels.com/photos/4622481/pexels-photo-4622481.jpeg" alt="Augmented reality prototype">
-          <h3>Project Two</h3>
-          <p>Augmented-reality prototype built for VisionOS.</p>
-        </div>
-        <div class="project card">
-          <img src="https://images.pexels.com/photos/3694710/pexels-photo-3694710.jpeg" alt="Data visualization dashboard">
-          <h3>Project Three</h3>
-          <p>Data visualization dashboard using frosted glass panels.</p>
-        </div>
+        <a href="https://github.com/shaye059/ML-Music-Genre-Classification?tab=readme-ov-file" target="_blank" class="project card">
+          <img src="images/music_classification.png" alt="Music Genre Classification">
+          <h3>Music Genre Classification</h3>
+          <p>AI-powered system that analyzes audio features to predict music genres with machine learning.</p>
+        </a>
+        <a href="model.html" class="project card">
+          <img src="images/varroa_detector.png" alt="BeeGuard AI - Varroa Mite Detection System">
+          <h3>BeeGuard AI</h3>
+          <p>Computer vision system that detects Varroa mites on honeybees using a custom finetuned ResNet model to help beekeepers protect their colonies.</p>
+        </a>
+        <a href="https://github.com/olivier-le-sage/robot-drone-collaboration" target="_blank" class="project card">
+          <img src="images/autonomous_collab.png" alt="Cooperative land-air drones">
+          <h3>Cooperative land-air drones</h3>
+          <p>Cooperative autonomous system where land and aerial robots work together to detect and collect litter using Mask R-CNN neural networks.</p>
+        </a>
       </div>
     </section>
 
@@ -899,6 +938,10 @@
   <script>
     // Set current year in footer
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
+    window.onblur = function () { document.title = "Where'd you go?"; }
+
+    window.onfocus = function () { document.title = 'Spencer Hayes-Laverdiere'; }
     
     // Mobile navigation handling
     function handleMobileNav() {
@@ -1111,8 +1154,8 @@
       showNoPosts() {
         this.pile.innerHTML = `
           <div class="no-posts-message">
-            <h3>No blog posts yet</h3>
-            <p>Check back soon for new content!</p>
+            <h3>Coming Soon</h3>
+            <p>Blog posts are on the way! Check back soon for insights on AI, computer vision, and technology. In the meantime, check out my <a href="https://medium.com/@spencer-hayes" target="_blank" style="color: var(--clr-accent); text-decoration: underline;">Medium publications</a>.</p>
           </div>
         `;
         this.totalCardsSpan.textContent = '0';
@@ -1133,16 +1176,7 @@
       }
       
       getFallbackData() {
-        return [
-          {
-            title: "The Future of Generative AI in Creative Industries",
-            excerpt: "Exploring how AI-powered tools are transforming the creative landscape and what it means for designers, artists, and content creators.",
-            date: "2025-03-15",
-            readTime: 5,
-            image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
-            slug: "future-generative-ai-creative-industries"
-          }
-        ];
+        return [];
       }
       
       attachEventListeners() {
