@@ -892,11 +892,14 @@
 
     <!-- Footer -->
     <footer>
-      &copy; 2025 Spencer Hayes-Laverdière
+      &copy; <span id="copyright-year">2025</span> Spencer Hayes-Laverdière
     </footer>
   </div>
   
   <script>
+    // Set current year in footer
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    
     // Mobile navigation handling
     function handleMobileNav() {
       const nav = document.querySelector('.main-nav');
