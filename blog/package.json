@@ -1,0 +1,23 @@
+{
+  "name": "spencer-blog-generator",
+  "version": "1.0.0",
+  "description": "Blog data generator for Spencer Hayes-Laverdière's website",
+  "main": "generate-blog-data.js",
+  "scripts": {
+    "generate": "node generate-blog-data.js",
+    "build": "node generate-blog-data.js",
+    "help": "node generate-blog-data.js --help"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "blog",
+    "markdown",
+    "static-site",
+    "generator"
+  ],
+  "author": "Spencer Hayes-Laverdière",
+  "license": "MIT"
+}

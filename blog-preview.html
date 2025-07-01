@@ -76,53 +76,61 @@
       overflow: hidden;
     }
     
-    /* Card stacking - each card slightly offset and behind the previous */
+    /* Card stacking - more obvious pile effect */
     .blog-card:nth-child(1) {
       z-index: 5;
       transform: translateY(0px) scale(1) rotate(0deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     }
     
     .blog-card:nth-child(2) {
       z-index: 4;
-      transform: translateY(8px) scale(0.98) rotate(-0.5deg);
-      opacity: 0.9;
+      transform: translateY(12px) scale(0.96) rotate(-1.2deg) translateX(-8px);
+      opacity: 0.85;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12);
     }
     
     .blog-card:nth-child(3) {
       z-index: 3;
-      transform: translateY(16px) scale(0.96) rotate(0.8deg);
-      opacity: 0.8;
+      transform: translateY(24px) scale(0.92) rotate(1.8deg) translateX(12px);
+      opacity: 0.7;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
     }
     
     .blog-card:nth-child(4) {
       z-index: 2;
-      transform: translateY(24px) scale(0.94) rotate(-0.3deg);
-      opacity: 0.7;
+      transform: translateY(36px) scale(0.88) rotate(-1deg) translateX(-6px);
+      opacity: 0.55;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.08);
     }
     
     .blog-card:nth-child(5) {
       z-index: 1;
-      transform: translateY(32px) scale(0.92) rotate(0.6deg);
-      opacity: 0.6;
+      transform: translateY(48px) scale(0.84) rotate(1.5deg) translateX(10px);
+      opacity: 0.4;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.06);
     }
     
     /* Active card states */
     .blog-card.active {
       z-index: 10;
-      transform: translateY(0px) scale(1) rotate(0deg) !important;
       opacity: 1 !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+      /* Don't override transform here to allow bounce animation */
     }
     
     .blog-card.next {
       z-index: 4;
-      transform: translateY(8px) scale(0.98) rotate(-0.5deg) !important;
-      opacity: 0.9 !important;
+      transform: translateY(12px) scale(0.96) rotate(-1.2deg) translateX(-8px) !important;
+      opacity: 0.85 !important;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.12) !important;
     }
     
     .blog-card.hidden {
       z-index: 0;
-      transform: translateY(40px) scale(0.9) rotate(1deg) !important;
+      transform: translateY(60px) scale(0.8) rotate(2deg) !important;
       opacity: 0 !important;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04) !important;
     }
     
     /* Swiping states */
@@ -136,34 +144,17 @@
       opacity: 0 !important;
     }
     
-    /* Corner peel hint animation */
-    .blog-card.active::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, transparent 45%, rgba(255,255,255,0.1) 50%, transparent 55%);
-      border-radius: 0 var(--radius) 0 0;
-      opacity: 0;
-      animation: cornerPeek 3s ease-in-out infinite;
-      pointer-events: none;
-    }
     
-    @keyframes cornerPeek {
-      0%, 90%, 100% { opacity: 0; transform: scale(1); }
-      5%, 15% { opacity: 1; transform: scale(1.1); }
-    }
-    
-    /* Gentle bounce hint for mobile */
+    /* Gentle bounce hint */
     .blog-card.active {
-      animation: gentleBounce 4s ease-in-out infinite;
+      animation: gentleBounce 6s ease-in-out infinite;
     }
     
     @keyframes gentleBounce {
-      0%, 95%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
-      2.5%, 7.5% { transform: translateY(-2px) scale(1) rotate(-0.5deg); }
+      0%, 90%, 100% { transform: translateY(0px) scale(1) rotate(0deg); }
+      3% { transform: translateY(-3px) scale(1.002) rotate(-0.3deg); }
+      6% { transform: translateY(0px) scale(1) rotate(0.2deg); }
+      9% { transform: translateY(-1px) scale(1.001) rotate(0deg); }
     }
     
     /* Card content */
@@ -360,13 +351,6 @@
       margin-right: auto;
     }
     
-    .swipe-hint {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      color: #666;
-      opacity: 0.8;
-    }
   </style>
 </head>
 <body>
@@ -444,17 +428,14 @@
       </div>
     </section>
     
-    <div class="swipe-hint">
-      💡 Swipe left/right on cards or use keyboard arrows
-    </div>
     
     <div class="demo-note">
       <strong>Card Pile Features:</strong><br>
+      • Enhanced pile effect with dramatic depth and rotation<br>
+      • Subtle bounce animation hints at interactivity<br>
       • Swipe gestures (mobile) and arrow navigation (desktop)<br>
-      • Subtle corner peel and bounce animations hint at interactivity<br>
       • Smooth spring-based transitions between cards<br>
-      • Space-efficient design showing 5 blog posts in one compact area<br>
-      • Keyboard navigation support (← → keys)
+      • Space-efficient design showing 5 blog posts in one compact area
     </div>
   </div>
   
