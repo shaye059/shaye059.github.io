@@ -67,6 +67,11 @@
       transform: none;
       box-shadow: var(--shadow-soft);
     }
+    
+    /* Hide reCAPTCHA badge */
+    .grecaptcha-badge {
+      display: none !important;
+    }
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -1334,6 +1339,7 @@
     (function() {
       emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
     })();
+    
     
     // reCAPTCHA callback function
     function onSubmit(token) {
