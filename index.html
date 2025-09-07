@@ -24,7 +24,7 @@
   <!-- EmailJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <!-- reCAPTCHA v3 -->
-  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LfV4JMrAAAAALKraU8fPoQ09YGCmA-Uk6PwTSDD"></script>
   <!-- Heroicons for social media -->
   <script src="https://unpkg.com/heroicons@2.0.16/24/outline/index.js" type="module"></script>
   <style>
@@ -923,10 +923,7 @@
           </label>
           
           
-          <button type="button" id="submit-btn" class="btn-primary g-recaptcha" 
-                  data-sitekey="6LfV4JMrAAAAALKraU8fPoQ09YGCmA-Uk6PwTSDD" 
-                  data-callback="onSubmit" 
-                  data-action="submit">
+          <button type="submit" id="submit-btn" class="btn-primary">
             <span id="submit-text">Send Message</span>
             <span id="loading-text" style="display: none;">Sending...</span>
           </button>
@@ -1341,8 +1338,8 @@
     })();
     
     
-    // reCAPTCHA callback function
-    function onSubmit(token) {
+    // Form submission with reCAPTCHA v3
+    function handleFormSubmission() {
       // Show loading state
       const submitBtn = document.getElementById('submit-btn');
       const submitText = document.getElementById('submit-text');
@@ -1352,32 +1349,43 @@
       submitText.style.display = 'none';
       loadingText.style.display = 'inline';
       
-      // Get form data
-      const form = document.getElementById('contact-form');
-      
-      // Send email via EmailJS
-      emailjs.sendForm("service_65vwgkg", "contact-us", form)
-        .then(function(response) {
-          console.log('SUCCESS!', response.status, response.text);
-          showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
-          form.reset();
-        }, function(error) {
-          console.log('FAILED...', error);
-          showFormStatus('Failed to send message. Please try again or contact me directly.', 'error');
-        })
-        .finally(function() {
-          // Reset button state
-          submitBtn.disabled = false;
-          submitText.style.display = 'inline';
-          loadingText.style.display = 'none';
-          // Reset reCAPTCHA
-          grecaptcha.reset();
+      // Execute reCAPTCHA v3
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LfV4JMrAAAAALKraU8fPoQ09YGCmA-Uk6PwTSDD', {action: 'contact_form'}).then(function(token) {
+          const form = document.getElementById('contact-form');
+          
+          // Create template parameters with reCAPTCHA token
+          const templateParams = {
+            from_name: form.from_name.value,
+            from_email: form.from_email.value,
+            message: form.message.value,
+            'g-recaptcha-response': token
+          };
+          
+          // Send email via EmailJS
+          emailjs.send("service_65vwgkg", "contact-us", templateParams)
+            .then(function(response) {
+              console.log('SUCCESS!', response.status, response.text);
+              showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
+              form.reset();
+            }, function(error) {
+              console.log('FAILED...', error);
+              showFormStatus('Failed to send message. Please try again or contact me directly.', 'error');
+            })
+            .finally(function() {
+              // Reset button state
+              submitBtn.disabled = false;
+              submitText.style.display = 'inline';
+              loadingText.style.display = 'none';
+            });
         });
+      });
     }
     
-    // Prevent form submission via Enter key (let reCAPTCHA handle it)
+    // Handle form submission
     document.getElementById('contact-form').addEventListener('submit', function(event) {
       event.preventDefault();
+      handleFormSubmission();
     });
     
     function showFormStatus(message, type) {
